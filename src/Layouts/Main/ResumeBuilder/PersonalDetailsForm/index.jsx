@@ -1,32 +1,31 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Box, Grid, TextField, Icon } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Timestamp, doc, getDoc, setDoc } from "firebase/firestore";
-import { useAuth } from "../../../../firebase/AuthContext";
-import { inputStyle } from "../styles";
-import { Colors } from "../../../../constants/Colors";
-import { db } from "../../../../firebase/firebase";
-import { updateData } from "../../../../firebase/firebaseReadWrite";
+import React, { useEffect, useState, useRef } from 'react';
+import { Box, Grid, TextField, Icon } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Timestamp, doc, getDoc, setDoc } from 'firebase/firestore';
+import { useAuth } from '../../../../firebase/AuthContext';
+import { inputStyle } from '../styles';
+import { Colors } from '../../../../constants/Colors';
+import { db } from '../../../../firebase/firebase';
+import { updateData } from '../../../../firebase/firebaseReadWrite';
 
 function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 	const { currentUser } = useAuth();
 	const saveTimeoutRef = useRef(null);
-	const docRef = currentUser ? doc(db, "users", currentUser.uid) : null;
+	const docRef = currentUser ? doc(db, 'users', currentUser.uid) : null;
 
-
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [address, setAddress] = useState("");
-	const [city, setCity] = useState("");
-	const [state, setState] = useState("");
-	const [zipCode, setZipCode] = useState("");
-	const [phone, setPhone] = useState("");
-	const [email, setEmail] = useState("");
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [address, setAddress] = useState('');
+	const [city, setCity] = useState('');
+	const [state, setState] = useState('');
+	const [zipCode, setZipCode] = useState('');
+	const [phone, setPhone] = useState('');
+	const [email, setEmail] = useState('');
 
 	const [openHelp, setOpenHelp] = useState(false);
 	const [personalInfo, setPersonalInfo] = useState({
@@ -37,12 +36,12 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 		state,
 		zipCode,
 		phone,
-		email
+		email,
 	});
 	useEffect(() => {
 		const fetchData = async () => {
 			if (currentUser) {
-				const docRef = doc(db, "users", currentUser.uid);
+				const docRef = doc(db, 'users', currentUser.uid);
 				const docSnap = await getDoc(docRef);
 				if (docSnap.exists()) {
 					const dataFromFireBase = docSnap.data().resumeData;
@@ -64,13 +63,17 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 
 	const saveData = async (field, value) => {
 		if (currentUser && docRef) {
-			await setDoc(docRef, {
-				resumeData: {
-					personal_info: {
-						[field]: value
-					}
-				}
-			}, { merge: true });
+			await setDoc(
+				docRef,
+				{
+					resumeData: {
+						personal_info: {
+							[field]: value,
+						},
+					},
+				},
+				{ merge: true },
+			);
 		}
 	};
 	const handleChange = (field, value) => {
@@ -78,15 +81,16 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 		saveTimeoutRef.current = setTimeout(() => {
 			saveData(field, value);
 		}, 500);
-	}
-	useEffect(() => () => {
+	};
+	useEffect(
+		() => () => {
 			clearTimeout(saveTimeoutRef.current);
-		}, []);
+		},
+		[],
+	);
 	const handleBlur = (field, value) => {
 		saveData(field, value);
 	};
-
-
 
 	const showHelpModal = () => {
 		const handleClose = () => {
@@ -99,7 +103,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 
 			updateData(docRef, {
 				PersonalDetailsFormHelp: true,
-				lastHelpRequestDate: Timestamp.fromDate(new Date())
+				lastHelpRequestDate: Timestamp.fromDate(new Date()),
 			});
 		};
 		return (
@@ -112,8 +116,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 				<DialogTitle id="alert-dialog-title">Call for Help?</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						We are sorry you are having trouble in filling the form. Would you
-						like Project Rebound Staff to assist you?
+						We are sorry you are having trouble in filling the form. Would you like Project Rebound Staff to assist you?
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
@@ -131,23 +134,23 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 			<Box
 				sx={{
 					backgroundColor: Colors.backgroundColor,
-					height: "auto",
-					borderRadius: "1rem",
-					boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-					margin: "auto",
-					paddingBottom: "2rem",
-					width: "90%"
+					height: 'auto',
+					borderRadius: '1rem',
+					boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+					margin: 'auto',
+					paddingBottom: '2rem',
+					width: '90%',
 				}}
 			>
 				{/* Heading row */}
-				<Grid container spacing={2} sx={{ margin: "auto", width: "97%" }}>
+				<Grid container spacing={2} sx={{ margin: 'auto', width: '97%' }}>
 					{/* Heading Text */}
 					<Grid item md={8} xs={8}>
 						<Box
 							sx={{
-								fontWeight: "700",
-								fontSize: { md: "1.3rem", sm: "1rem", xs: "1.2rem" },
-								color: Colors.primaryColor
+								fontWeight: '700',
+								fontSize: { md: '1.3rem', sm: '1rem', xs: '1.2rem' },
+								color: Colors.primaryColor,
 							}}
 						>
 							Personal Details
@@ -155,12 +158,12 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						<Box
 							sx={{
 								fontSize: {
-									md: "1rem",
-									sm: "0.8rem",
-									xs: "0.8rem",
-									fontFamily: "Inria Sans",
-									color: Colors.primaryColor
-								}
+									md: '1rem',
+									sm: '0.8rem',
+									xs: '0.8rem',
+									fontFamily: 'Inria Sans',
+									color: Colors.primaryColor,
+								},
 							}}
 						>
 							Please add your personal details
@@ -170,13 +173,13 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 					<Grid item md={4} xs={4}>
 						<Box
 							sx={{
-								float: "right",
-								display: "flex",
-								bgcolor: { md: Colors.white, sm: Colors.white, xs: "None" },
-								paddingRight: { md: "1.2rem", sm: "1rem", xs: "0.5rem" },
-								paddingLeft: { md: "1.2rem", sm: "1rem", xs: "0.5rem" },
-								marginRight: "0.5rem",
-								cursor: "pointer"
+								float: 'right',
+								display: 'flex',
+								bgcolor: { md: Colors.white, sm: Colors.white, xs: 'None' },
+								paddingRight: { md: '1.2rem', sm: '1rem', xs: '0.5rem' },
+								paddingLeft: { md: '1.2rem', sm: '1rem', xs: '0.5rem' },
+								marginRight: '0.5rem',
+								cursor: 'pointer',
 							}}
 							onClick={() => {
 								setOpenHelp(true);
@@ -184,11 +187,11 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						>
 							<Box
 								sx={{
-									display: { md: "flex", sm: "flex", xs: "None" },
-									borderRadius: "0.1rem",
-									fontSize: { md: "1rem", sm: "0.7rem", xs: "0.7rem" },
+									display: { md: 'flex', sm: 'flex', xs: 'None' },
+									borderRadius: '0.1rem',
+									fontSize: { md: '1rem', sm: '0.7rem', xs: '0.7rem' },
 									color: Colors.primaryColor,
-									fontWeight: "700"
+									fontWeight: '700',
 								}}
 							>
 								<p>Need Help</p>
@@ -196,8 +199,8 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 							<Box
 								sx={{
 									color: Colors.primaryColor,
-									marginTop: { md: "0.85rem", sm: "0.5rem", xs: "0 " },
-									marginLeft: "0.5rem"
+									marginTop: { md: '0.85rem', sm: '0.5rem', xs: '0 ' },
+									marginLeft: '0.5rem',
 								}}
 							>
 								<Icon>help_circle</Icon>
@@ -205,17 +208,13 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						</Box>
 					</Grid>
 				</Grid>
-				<Grid
-					container
-					spacing={2}
-					sx={{ margin: "auto", width: "97%", paddingRight: "0.5rem" }}
-				>
+				<Grid container spacing={2} sx={{ margin: 'auto', width: '97%', paddingRight: '0.5rem' }}>
 					{/* First Name */}
 					<Grid item md={6} sm={6} xs={12}>
 						<Box
 							component="form"
 							sx={{
-								"& > :not(style)": { width: "100%" }
+								'& > :not(style)': { width: '100%' },
 							}}
 							autoComplete="off"
 						>
@@ -226,14 +225,14 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 								value={firstName}
 								name="firstname"
 								InputProps={{
-									disableUnderline: true
+									disableUnderline: true,
 								}}
 								onChange={(e) => {
-									const {value} = e.target;
+									const { value } = e.target;
 									setFirstName(value);
-									handleChange("firstName", value);
+									handleChange('firstName', value);
 								}}
-								onBlur={() => handleBlur("firstName", firstName)}
+								onBlur={() => handleBlur('firstName', firstName)}
 								focused
 							/>
 						</Box>
@@ -244,7 +243,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						<Box
 							component="form"
 							sx={{
-								"& > :not(style)": { width: "100%" }
+								'& > :not(style)': { width: '100%' },
 							}}
 							autoComplete="off"
 						>
@@ -255,14 +254,14 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 								value={lastName}
 								name="lastName"
 								onChange={(e) => {
-									const {value} = e.target;
+									const { value } = e.target;
 									setLastName(value);
-									handleChange("lastName", value);
+									handleChange('lastName', value);
 								}}
 								InputProps={{
-									disableUnderline: true
+									disableUnderline: true,
 								}}
-								onBlur={() => handleBlur("lastName", lastName)}
+								onBlur={() => handleBlur('lastName', lastName)}
 								focused
 							/>
 						</Box>
@@ -274,7 +273,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 							<Box
 								component="form"
 								sx={{
-									"& > :not(style)": { width: "100%" }
+									'& > :not(style)': { width: '100%' },
 								}}
 								autoComplete="off"
 							>
@@ -285,14 +284,14 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 									value={address}
 									name="address"
 									onChange={(e) => {
-										const {value} = e.target;
+										const { value } = e.target;
 										setAddress(value);
-										handleChange("address", value);
+										handleChange('address', value);
 									}}
-									onBlur={() => handleBlur("address", address)}
+									onBlur={() => handleBlur('address', address)}
 									focused
 									InputProps={{
-										disableUnderline: true
+										disableUnderline: true,
 									}}
 								/>
 							</Box>
@@ -304,7 +303,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						<Box
 							component="form"
 							sx={{
-								"& > :not(style)": { width: "100%" }
+								'& > :not(style)': { width: '100%' },
 							}}
 							autoComplete="off"
 						>
@@ -315,14 +314,14 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 								value={city}
 								name="city"
 								onChange={(e) => {
-									const {value} = e.target;
+									const { value } = e.target;
 									setCity(value);
-									handleChange("city", value);
+									handleChange('city', value);
 								}}
-								onBlur={() => handleBlur("city", city)}
+								onBlur={() => handleBlur('city', city)}
 								focused
 								InputProps={{
-									disableUnderline: true
+									disableUnderline: true,
 								}}
 							/>
 						</Box>
@@ -333,7 +332,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						<Box
 							component="form"
 							sx={{
-								"& > :not(style)": { width: "100%" }
+								'& > :not(style)': { width: '100%' },
 							}}
 							autoComplete="off"
 						>
@@ -344,15 +343,14 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 								value={state}
 								name="state"
 								onChange={(e) => {
-									const {value} = e.target;
+									const { value } = e.target;
 									setState(value);
-									handleChange("state", value);
-
+									handleChange('state', value);
 								}}
-								onBlur={() => handleBlur("state", state)}
+								onBlur={() => handleBlur('state', state)}
 								focused
 								InputProps={{
-									disableUnderline: true
+									disableUnderline: true,
 								}}
 							/>
 						</Box>
@@ -363,7 +361,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						<Box
 							component="form"
 							sx={{
-								"& > :not(style)": { width: "100%" }
+								'& > :not(style)': { width: '100%' },
 							}}
 							autoComplete="off"
 						>
@@ -374,14 +372,14 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 								value={zipCode}
 								name="zipCode"
 								onChange={(e) => {
-									const {value} = e.target;
+									const { value } = e.target;
 									setZipCode(value);
-									handleChange("zipCode", value);
+									handleChange('zipCode', value);
 								}}
-								onBlur={() => handleBlur("zipCode", zipCode)}
+								onBlur={() => handleBlur('zipCode', zipCode)}
 								focused
 								InputProps={{
-									disableUnderline: true
+									disableUnderline: true,
 								}}
 							/>
 						</Box>
@@ -393,7 +391,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						<Box
 							component="form"
 							sx={{
-								"& > :not(style)": { width: "100%" }
+								'& > :not(style)': { width: '100%' },
 							}}
 							autoComplete="off"
 						>
@@ -404,14 +402,14 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 								value={phone}
 								name="phone"
 								onChange={(e) => {
-									const {value} = e.target;
+									const { value } = e.target;
 									setPhone(value);
-									handleChange("phone", value);
+									handleChange('phone', value);
 								}}
-								onBlur={() => handleBlur("phone", phone)}
+								onBlur={() => handleBlur('phone', phone)}
 								focused
 								InputProps={{
-									disableUnderline: true
+									disableUnderline: true,
 								}}
 							/>
 						</Box>
@@ -422,7 +420,7 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 						<Box
 							component="form"
 							sx={{
-								"& > :not(style)": { width: "100%" }
+								'& > :not(style)': { width: '100%' },
 							}}
 							autoComplete="off"
 						>
@@ -433,14 +431,14 @@ function PersonalDetailsForm({ dataFromPersonalInfo, dataFromFirebase }) {
 								value={email}
 								name="email"
 								onChange={(e) => {
-									const {value} = e.target;
+									const { value } = e.target;
 									setEmail(value);
-									handleChange("email", value);
+									handleChange('email', value);
 								}}
-								onBlur={() => handleBlur("email", email)}
+								onBlur={() => handleBlur('email', email)}
 								focused
 								InputProps={{
-									disableUnderline: true
+									disableUnderline: true,
 								}}
 							/>
 						</Box>

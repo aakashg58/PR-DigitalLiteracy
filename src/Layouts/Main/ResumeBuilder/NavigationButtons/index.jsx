@@ -1,22 +1,20 @@
-import React, { useState } from "react";
-import { Box, Grid, Button, Modal } from "@mui/material";
-import {
-	doc
-} from "firebase/firestore";
-import { formBackground } from "../styles";
-import { Colors } from "../../../../constants/Colors";
-import { useAuth } from "../../../../firebase/AuthContext";
-import { db } from "../../../../firebase/firebase";
+import React, { useState } from 'react';
+import { Box, Grid, Button, Modal } from '@mui/material';
+import { doc } from 'firebase/firestore';
+import { formBackground } from '../styles';
+import { Colors } from '../../../../constants/Colors';
+import { useAuth } from '../../../../firebase/AuthContext';
+import { db } from '../../../../firebase/firebase';
 
-import PDFPage from "../../../../pages/PDFPage";
+import PDFPage from '../../../../pages/PDFPage';
 
 function NavigationButtons({ resumeData, dataFromFirebase }) {
 	const { currentUser } = useAuth();
-	const [preparedData, setPreparedData] = useState({});  // New state to hold prepared data
+	const [preparedData, setPreparedData] = useState({}); // New state to hold prepared data
 
 	let docRef;
 	if (currentUser !== null) {
-		docRef = doc(db, "users", currentUser.uid);
+		docRef = doc(db, 'users', currentUser.uid);
 	}
 
 	const [isResumeBtnClicked, setResumeBtnClicked] = useState(false);
@@ -28,10 +26,7 @@ function NavigationButtons({ resumeData, dataFromFirebase }) {
 	// Function to prepare data before generating the PDF
 	const prepareData = () => {
 		const adjustedData = resumeData.educationInfo?.resumeData ?? {};
-		console.log(
-			"Before preparing data: ",
-			resumeData,
-		)
+		console.log('Before preparing data: ', resumeData);
 		const updatedData = JSON.parse(JSON.stringify(adjustedData));
 
 		// Similar to the logic you had in saveData
@@ -41,7 +36,7 @@ function NavigationButtons({ resumeData, dataFromFirebase }) {
 		if (updatedData.professional_experience_info === undefined) {
 			updatedData.professional_experience_info = dataFromFirebase.professional_experience_info ?? null;
 		}
-		if (JSON.stringify(updatedData.personal_info) === "{}") {
+		if (JSON.stringify(updatedData.personal_info) === '{}') {
 			updatedData.personal_info = dataFromFirebase.personal_info;
 		}
 		if (updatedData.objective === undefined) {
@@ -51,8 +46,8 @@ function NavigationButtons({ resumeData, dataFromFirebase }) {
 			updatedData.references_info = dataFromFirebase.references_info ?? [];
 		}
 		console.log('Prepared data:', updatedData);
-		setPreparedData(updatedData);  // Set the prepared data
-	}
+		setPreparedData(updatedData); // Set the prepared data
+	};
 
 	// const saveData = () => {
 	//   if (resumeData.education_info === undefined) {
@@ -153,16 +148,16 @@ function NavigationButtons({ resumeData, dataFromFirebase }) {
 					<Box />
 				</Grid>
 				<Grid item sm={6} xs={12}>
-					<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+					<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 						<Box>
 							<Button
 								variant="contained"
 								sx={{
 									backgroundColor: Colors.primaryColor,
-									fontSize: { md: "1rem", sm: "0.7rem", xs: "0.5rem" },
-									"&:hover": { backgroundColor: Colors.primaryColor }
+									fontSize: { md: '1rem', sm: '0.7rem', xs: '0.5rem' },
+									'&:hover': { backgroundColor: Colors.primaryColor },
 								}}
-							// onClick={saveProgressBtnOnClick}
+								// onClick={saveProgressBtnOnClick}
 							>
 								Save Progress
 							</Button>
@@ -172,9 +167,9 @@ function NavigationButtons({ resumeData, dataFromFirebase }) {
 								variant="contained"
 								sx={{
 									backgroundColor: Colors.primaryColor,
-									fontSize: { md: "1rem", sm: "0.7rem", xs: "0.5rem" },
-									marginLeft: "1rem",
-									"&:hover": { backgroundColor: Colors.primaryColor }
+									fontSize: { md: '1rem', sm: '0.7rem', xs: '0.5rem' },
+									marginLeft: '1rem',
+									'&:hover': { backgroundColor: Colors.primaryColor },
 								}}
 								onClick={generatePdf}
 							>

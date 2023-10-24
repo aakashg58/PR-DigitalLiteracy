@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Box, TextField, Grid, Fab, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import { doc, onSnapshot } from "firebase/firestore";
-import { Colors } from "../../constants/Colors";
-import { updateData } from "../../firebase/firebaseReadWrite";
-import { useAuth } from "../../firebase/AuthContext";
+import React, { useEffect, useState } from 'react';
+import { Box, TextField, Grid, Fab, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { Colors } from '../../constants/Colors';
+import { updateData } from '../../firebase/firebaseReadWrite';
+import { useAuth } from '../../firebase/AuthContext';
 
-import { db } from "../../firebase/firebase";
+import { db } from '../../firebase/firebase';
 
 let nextId = 0;
 
 function AddSkills() {
-	const [item, setItem] = useState("");
+	const [item, setItem] = useState('');
 	const [inputList, setInputList] = useState([]);
 	// eslint-disable-next-line
 	const [firebaseList, setFirebaseList] = useState([]);
@@ -22,14 +22,14 @@ function AddSkills() {
 	const { currentUser } = useAuth();
 	let docRef;
 	if (currentUser !== null) {
-		docRef = doc(db, "users", currentUser.uid);
+		docRef = doc(db, 'users', currentUser.uid);
 	}
 
 	const onAddBtnClick = () => {
-		if (item !== "") {
+		if (item !== '') {
 			setInputList([...inputList, { id: nextId++, name: item }]);
 		}
-		setItem("");
+		setItem('');
 		setCount(count + 1);
 	};
 
@@ -40,7 +40,7 @@ function AddSkills() {
 
 	const updateListToFirebase = () => {
 		const docData = {
-			skills_list: inputList
+			skills_list: inputList,
 		};
 
 		updateData(docRef, docData);
@@ -53,11 +53,7 @@ function AddSkills() {
 					setLoading(false);
 					setFirebaseList(() => {
 						let newList = [];
-						if (
-							doc.data() !== undefined &&
-							doc.data().skills_list !== null &&
-							doc.data().skills_list !== undefined
-						) {
+						if (doc.data() !== undefined && doc.data().skills_list !== null && doc.data().skills_list !== undefined) {
 							newList = doc.data().skills_list;
 							// eslint-disable-next-line
 							if (newList) {
@@ -79,7 +75,6 @@ function AddSkills() {
 				};
 			}
 			updateListToFirebase();
-
 		}
 		// eslint-disable-next-line
 	}, [count]);
@@ -88,16 +83,16 @@ function AddSkills() {
 		<Box>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
-					<Box sx={{ display: "flex" }}>
+					<Box sx={{ display: 'flex' }}>
 						<TextField
 							id="standard-basic"
 							variant="standard"
 							value={item}
 							placeholder="Press Enter or Return to Add Skill"
 							onChange={(e) => setItem(e.target.value)}
-							sx={{ width: "90%", marginTop: "1rem" }}
+							sx={{ width: '90%', marginTop: '1rem' }}
 							onKeyPress={(e) => {
-								if (e.key === "Enter") {
+								if (e.key === 'Enter') {
 									onAddBtnClick();
 								}
 							}}
@@ -108,31 +103,31 @@ function AddSkills() {
 							sx={{
 								backgroundColor: Colors.white,
 								color: Colors.primaryColor,
-								marginTop: "1rem",
-								marginLeft: "1rem",
-								marginBottom: "1rem",
-								"&:hover": {
-									backgroundColor: Colors.white
-								}
+								marginTop: '1rem',
+								marginLeft: '1rem',
+								marginBottom: '1rem',
+								'&:hover': {
+									backgroundColor: Colors.white,
+								},
 							}}
 							onClick={onAddBtnClick}
 						>
 							<AddIcon />
 						</Fab>
 					</Box>
-					<Box sx={{ height: "13rem", overflowY: "auto" }}>
+					<Box sx={{ height: '13rem', overflowY: 'auto' }}>
 						{loading ? (
 							<Box>Data Loading...</Box>
 						) : (
 							inputList.map((e, index) => (
-								<Box sx={{ display: "flex" }} key={e.id}>
+								<Box sx={{ display: 'flex' }} key={e.id}>
 									<Grid container spacing={2}>
 										<Grid item xs={10}>
 											<Typography
 												sx={{
-													fontFamily: "Inria Sans",
-													fontSize: "1.3rem",
-													fontColor: Colors.primaryColor
+													fontFamily: 'Inria Sans',
+													fontSize: '1.3rem',
+													fontColor: Colors.primaryColor,
 												}}
 											>
 												{e.name}
@@ -140,7 +135,7 @@ function AddSkills() {
 										</Grid>
 										<Grid item xs={1}>
 											<Box
-												sx={{ padding: "0.5rem" }}
+												sx={{ padding: '0.5rem' }}
 												onClick={() => {
 													onCloseBtnClick(e.id);
 												}}
@@ -148,7 +143,7 @@ function AddSkills() {
 												<CloseIcon
 													sx={{
 														color: Colors.primaryColor,
-														height: "1.4rem"
+														height: '1.4rem',
 													}}
 												/>
 											</Box>
@@ -163,11 +158,11 @@ function AddSkills() {
 
 			<Box
 				sx={{
-					position: "absolute",
+					position: 'absolute',
 					bottom: 0,
 					right: 0,
-					padding: "1rem",
-					marginBottom: "4rem"
+					padding: '1rem',
+					marginBottom: '4rem',
 				}}
 			/>
 		</Box>

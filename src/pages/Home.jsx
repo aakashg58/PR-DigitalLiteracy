@@ -1,18 +1,16 @@
-import React from "react";
-import Footer from "../Layouts/Footer";
-import HomeIntro from "../Layouts/Main/Home/HomeIntro";
-import HomeMain from "../Layouts/Main/Home/HomeMain";
-import Navbar from "../Layouts/Navbar";
+import React from 'react';
+import Footer from '../Layouts/Footer';
+import Home from '../Layouts/Main/Home';
+import Navbar from '../Layouts/Navbar';
 
-function Home() {
-  return (
-    <div>
-      <Navbar />
-      <HomeIntro />
-      <HomeMain />
-      <Footer />
-    </div>
-  );
+function HomePage() {
+	return (
+		<div>
+			<Navbar />
+			<Home />
+			<Footer />
+		</div>
+	);
 }
 
-export default Home;
+export default HomePage;

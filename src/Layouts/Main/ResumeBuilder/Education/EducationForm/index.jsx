@@ -1,33 +1,26 @@
-import React, { useState, useEffect } from "react";
-import {
-	Box,
-	Grid,
-	Icon,
-	TextField,
-	FormControlLabel,
-	Checkbox
-} from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Timestamp, doc, updateDoc } from "firebase/firestore";
-import ReactDatePicker from "react-datepicker";
+import React, { useState, useEffect } from 'react';
+import { Box, Grid, Icon, TextField, FormControlLabel, Checkbox } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Timestamp, doc, updateDoc } from 'firebase/firestore';
+import ReactDatePicker from 'react-datepicker';
 import { debounce } from 'lodash';
-import { db } from "../../../../../firebase/firebase";
-import { updateData } from "../../../../../firebase/firebaseReadWrite";
-import "react-datepicker/dist/react-datepicker.css";
-import { useAuth } from "../../../../../firebase/AuthContext";
-import { Colors } from "../../../../../constants/Colors";
+import { db } from '../../../../../firebase/firebase';
+import { updateData } from '../../../../../firebase/firebaseReadWrite';
+import 'react-datepicker/dist/react-datepicker.css';
+import { useAuth } from '../../../../../firebase/AuthContext';
+import { Colors } from '../../../../../constants/Colors';
 import {
 	inputStyle,
 	educationFormContainer,
 	educationFormSubtitle,
 	educationFormTitle,
-	helpButtonContainer
-} from "../../styles";
+	helpButtonContainer,
+} from '../../styles';
 
 function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 	const { currentUser } = useAuth();
@@ -35,50 +28,51 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 	let docRef;
 	if (currentUser !== null) {
 		// console.log("uid ", currentUser.uid);
-		docRef = doc(db, "users", currentUser.uid);
-	} const [inputList, setInputList] = useState([
+		docRef = doc(db, 'users', currentUser.uid);
+	}
+	const [inputList, setInputList] = useState([
 		{
-			schoolName: "",
-			startDate: "",
-			endDate: "",
-			schoolLocation: "",
-			degree: "",
-			fieldOfStudy: "",
-			currentlyEnrolled: false
-		}
+			schoolName: '',
+			startDate: '',
+			endDate: '',
+			schoolLocation: '',
+			degree: '',
+			fieldOfStudy: '',
+			currentlyEnrolled: false,
+		},
 	]);
 
 	const [count, setCount] = useState(0);
 
 	const date_options = {
-		year: "numeric",
-		month: "short"
+		year: 'numeric',
+		month: 'short',
 	};
 	const [openHelp, setOpenHelp] = useState(false);
 	useEffect(() => {
 		const fetchData = async () => {
-			console.log("Fetching data from Firebase...");
+			console.log('Fetching data from Firebase...');
 			try {
-				console.log("Current user:", currentUser);
+				console.log('Current user:', currentUser);
 				if (currentUser !== null) {
 					console.log(dataFromFirebase);
 					if (dataFromFirebase) {
-						console.log("Data from Firebase:", dataFromFirebase);
+						console.log('Data from Firebase:', dataFromFirebase);
 						const educationInfoFromFirebase = dataFromFirebase.resumeData.education_info;
 						if (educationInfoFromFirebase) {
-							console.log("Data from Firebase:", educationInfoFromFirebase);
+							console.log('Data from Firebase:', educationInfoFromFirebase);
 							const updatedInputList = educationInfoFromFirebase.map((item) => ({
 								...item,
 								startDate: item.startDate ? item.startDate.toDate() : null,
-								endDate: item.endDate ? item.endDate.toDate() : null
+								endDate: item.endDate ? item.endDate.toDate() : null,
 							}));
 							setInputList(updatedInputList);
-							console.log("Updated state:", updatedInputList);
+							console.log('Updated state:', updatedInputList);
 						}
 					}
 				}
 			} catch (err) {
-				console.error("Failed to fetch data from Firebase:", err);
+				console.error('Failed to fetch data from Firebase:', err);
 			} finally {
 				setLoading(false);
 			}
@@ -100,7 +94,7 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 
 			updateData(docRef, {
 				EducationFormHelp: true,
-				lastHelpRequestDate: Timestamp.fromDate(new Date())
+				lastHelpRequestDate: Timestamp.fromDate(new Date()),
 			});
 		};
 		return (
@@ -113,8 +107,7 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 				<DialogTitle id="alert-dialog-title">Call for Help?</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						We are sorry you are having trouble in filling the form. Would you
-						like Project Rebound Staff to assist you?
+						We are sorry you are having trouble in filling the form. Would you like Project Rebound Staff to assist you?
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
@@ -129,13 +122,13 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 
 	const onAddBtnClick = () => {
 		const newField = {
-			schoolName: "",
-			startDate: "",
-			endDate: "",
-			schoolLocation: "",
-			degree: "",
-			fieldOfStudy: "",
-			currentlyEnrolled: false
+			schoolName: '',
+			startDate: '',
+			endDate: '',
+			schoolLocation: '',
+			degree: '',
+			fieldOfStudy: '',
+			currentlyEnrolled: false,
 		};
 
 		setInputList([...inputList, newField]);
@@ -152,10 +145,10 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 		try {
 			const data = [...inputList];
 
-			if (name === "currentlyEnrolled") {
+			if (name === 'currentlyEnrolled') {
 				data[index].endDate = value ? null : data[index].endDate;
 				data[index].currentlyEnrolled = value;
-			} else if (name === "startDate" || name === "endDate") {
+			} else if (name === 'startDate' || name === 'endDate') {
 				if (value === null) {
 					data[index][name] = null;
 				} else {
@@ -172,9 +165,8 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 				debouncedSave();
 			}
 		} catch (error) {
-			console.error("Error in handleFormChange:", error);
+			console.error('Error in handleFormChange:', error);
 		}
-
 	};
 	const saveData = async () => {
 		if (currentUser) {
@@ -183,19 +175,16 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 				return {
 					...rest,
 					startDate: startDate ? Timestamp.fromMillis(startDate) : null,
-					endDate: endDate ? Timestamp.fromMillis(endDate) : null
+					endDate: endDate ? Timestamp.fromMillis(endDate) : null,
 				};
 			});
 
-			await updateDoc(docRef, { "resumeData.education_info": updatedData });
-			console.log("Data saved to Firebase:", updatedData);
+			await updateDoc(docRef, { 'resumeData.education_info': updatedData });
+			console.log('Data saved to Firebase:', updatedData);
 		}
 	};
 
 	const debouncedSave = debounce(saveData, 1000);
-
-
-
 
 	const educationFormFunction = inputList.map((input, index) => (
 		<Box key={index}>
@@ -206,19 +195,19 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 					container
 					spacing={2}
 					sx={{
-						margin: "auto",
-						width: "97%",
-						paddingRight: "0.5rem",
-						marginTop: "1rem"
+						margin: 'auto',
+						width: '97%',
+						paddingRight: '0.5rem',
+						marginTop: '1rem',
 					}}
 				>
 					<Grid item md={6} sm={6} xs={12} order={{ xs: 1 }}>
 						<Box
 							sx={{
-								width: "97%",
-								margin: "auto",
+								width: '97%',
+								margin: 'auto',
 								color: Colors.primaryColor,
-								fontWeight: "700"
+								fontWeight: '700',
 							}}
 						>
 							Education #{index + 1}
@@ -229,10 +218,10 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 						<Box
 							sx={{
 								color: Colors.primaryColor,
-								fontSize: { sm: "1rem", xs: "0.8rem" },
-								textAlign: "right",
-								paddingRight: "1rem",
-								cursor: "pointer"
+								fontSize: { sm: '1rem', xs: '0.8rem' },
+								textAlign: 'right',
+								paddingRight: '1rem',
+								cursor: 'pointer',
 							}}
 							onClick={() => {
 								removeEducationBtnClick(index);
@@ -248,14 +237,14 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 				id={`education-form-${index}`}
 				container
 				spacing={2}
-				sx={{ margin: "auto", width: "97%", paddingRight: "0.5rem" }}
+				sx={{ margin: 'auto', width: '97%', paddingRight: '0.5rem' }}
 			>
 				{/* School Name */}
 				<Grid item md={6} sm={6} xs={12} order={{ xs: 1 }}>
 					<Box
 						component="form"
 						sx={{
-							"& > :not(style)": { width: "100%" }
+							'& > :not(style)': { width: '100%' },
 						}}
 						id={`schoolName-${index}`}
 					>
@@ -267,10 +256,10 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 							name="schoolName"
 							focused
 							onChange={(e) => {
-								handleFormChange(index, e.target.value, "schoolName");
+								handleFormChange(index, e.target.value, 'schoolName');
 							}}
 							InputProps={{
-								disableUnderline: true
+								disableUnderline: true,
 							}}
 						/>
 					</Box>
@@ -282,7 +271,7 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 					<Box
 						component="form"
 						sx={{
-							"& > :not(style)": { width: "100%" }
+							'& > :not(style)': { width: '100%' },
 						}}
 						autoComplete="off"
 						id={`startDate-${index}`}
@@ -291,12 +280,12 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 							<Grid item xs={3}>
 								<Box
 									sx={{
-										marginTop: "1rem",
+										marginTop: '1rem',
 										color: Colors.primaryColor,
-										fontSize: "1rem",
-										fontFamily: "Inria Sans",
-										fontWeight: "700",
-										marginLeft: "0.5rem"
+										fontSize: '1rem',
+										fontFamily: 'Inria Sans',
+										fontWeight: '700',
+										marginLeft: '0.5rem',
 									}}
 								>
 									Start Date
@@ -305,7 +294,7 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 							<Grid item xs={9}>
 								<ReactDatePicker
 									selected={input.startDate}
-									onChange={(date) => handleFormChange(index, date, "startDate")}
+									onChange={(date) => handleFormChange(index, date, 'startDate')}
 									dateFormat="MMMM-yyyy"
 									showMonthYearPicker
 								/>
@@ -319,7 +308,7 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 					<Box
 						component="form"
 						sx={{
-							"& > :not(style)": { width: "100%" }
+							'& > :not(style)': { width: '100%' },
 						}}
 						autoComplete="off"
 					>
@@ -327,27 +316,28 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 							<Grid item xs={3}>
 								<Box
 									sx={{
-										marginTop: "1rem",
+										marginTop: '1rem',
 										color: Colors.primaryColor,
-										fontSize: "1rem",
-										fontFamily: "Inria Sans",
-										fontWeight: "700",
-										marginLeft: "0.5rem"
+										fontSize: '1rem',
+										fontFamily: 'Inria Sans',
+										fontWeight: '700',
+										marginLeft: '0.5rem',
 									}}
 								>
 									End Date
 								</Box>
 							</Grid>
 							<Grid item xs={9}>
-								{input.currentlyEnrolled ?
-									<div style={{ height: '54px' }} /> : // Adjust the height as needed
+								{input.currentlyEnrolled ? (
+									<div style={{ height: '54px' }} /> // Adjust the height as needed
+								) : (
 									<ReactDatePicker
 										selected={input.endDate}
-										onChange={(date) => handleFormChange(index, date, "endDate")}
+										onChange={(date) => handleFormChange(index, date, 'endDate')}
 										dateFormat="MMMM-yyyy"
 										showMonthYearPicker
 									/>
-								}
+								)}
 							</Grid>
 						</Grid>
 					</Box>
@@ -357,7 +347,7 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 					<Box
 						component="form"
 						sx={{
-							"& > :not(style)": { width: "100%" }
+							'& > :not(style)': { width: '100%' },
 						}}
 						autoComplete="off"
 					>
@@ -369,11 +359,11 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 							focused
 							name="schoolLocation"
 							onChange={(e) => {
-								handleFormChange(index, e.target.value, "schoolLocation");
+								handleFormChange(index, e.target.value, 'schoolLocation');
 							}}
 							id={`schoolLocation-${index}`}
 							InputProps={{
-								disableUnderline: true
+								disableUnderline: true,
 							}}
 						/>
 					</Box>
@@ -387,7 +377,7 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 					<Box
 						component="form"
 						sx={{
-							"& > :not(style)": { width: "100%" }
+							'& > :not(style)': { width: '100%' },
 						}}
 						autoComplete="off"
 					>
@@ -399,11 +389,11 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 							value={input.degree}
 							name="degree"
 							onChange={(e) => {
-								handleFormChange(index, e.target.value, "degree");
+								handleFormChange(index, e.target.value, 'degree');
 							}}
 							id={`fieldOfStudy-${index}`}
 							InputProps={{
-								disableUnderline: true
+								disableUnderline: true,
 							}}
 						/>
 					</Box>
@@ -414,8 +404,8 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 					<Box
 						component="form"
 						sx={{
-							marginLeft: "0.5rem",
-							"& > :not(style)": { width: "100%" }
+							marginLeft: '0.5rem',
+							'& > :not(style)': { width: '100%' },
 						}}
 						autoComplete="off"
 					>
@@ -426,13 +416,12 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 									sx={inputStyle}
 									name="currentlyEnrolled"
 									checked={
-										input.currentlyEnrolled !== null &&
-											input.currentlyEnrolled !== undefined
+										input.currentlyEnrolled !== null && input.currentlyEnrolled !== undefined
 											? input.currentlyEnrolled
 											: false
 									}
 									onChange={(e) => {
-										handleFormChange(index, e.target.checked, "currentlyEnrolled");
+										handleFormChange(index, e.target.checked, 'currentlyEnrolled');
 									}}
 								/>
 							}
@@ -446,7 +435,7 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 					<Box
 						component="form"
 						sx={{
-							"& > :not(style)": { width: "100%" }
+							'& > :not(style)': { width: '100%' },
 						}}
 						autoComplete="off"
 					>
@@ -458,11 +447,11 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 							value={input.fieldOfStudy}
 							name="fieldOfStudy"
 							onChange={(e) => {
-								handleFormChange(index, e.target.value, "fieldOfStudy");
+								handleFormChange(index, e.target.value, 'fieldOfStudy');
 							}}
 							id={`fieldOfStudy-${index}`}
 							InputProps={{
-								disableUnderline: true
+								disableUnderline: true,
 							}}
 						/>
 					</Box>
@@ -471,19 +460,17 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 		</Box>
 	));
 	if (loading) {
-		return <p>Loading...</p>
+		return <p>Loading...</p>;
 	}
 	return (
-
 		<Box sx={educationFormContainer}>
-			<Grid container spacing={2} sx={{ margin: "auto", width: "97%" }}>
+			<Grid container spacing={2} sx={{ margin: 'auto', width: '97%' }}>
 				{/* Heading Row */}
 
 				<Grid item md={8} xs={8}>
 					<Box sx={educationFormTitle}>Education/School</Box>
 					<Box sx={educationFormSubtitle}>
-						You can add relevant courses, bootcamps or programs that you are
-						enrolled in.
+						You can add relevant courses, bootcamps or programs that you are enrolled in.
 					</Box>
 				</Grid>
 
@@ -497,11 +484,11 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 					>
 						<Box
 							sx={{
-								display: { md: "flex", sm: "flex", xs: "None" },
-								borderRadius: "0.1rem",
-								fontSize: { md: "1rem", sm: "0.7rem", xs: "0.7rem" },
+								display: { md: 'flex', sm: 'flex', xs: 'None' },
+								borderRadius: '0.1rem',
+								fontSize: { md: '1rem', sm: '0.7rem', xs: '0.7rem' },
 								color: Colors.primaryColor,
-								fontWeight: "700"
+								fontWeight: '700',
 							}}
 						>
 							<p>Need Help</p>
@@ -509,8 +496,8 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 						<Box
 							sx={{
 								color: Colors.primaryColor,
-								marginTop: { md: "0.85rem", sm: "0.5rem", xs: "0 " },
-								marginLeft: "0.5rem"
+								marginTop: { md: '0.85rem', sm: '0.5rem', xs: '0 ' },
+								marginLeft: '0.5rem',
 							}}
 						>
 							<Icon>help_circle</Icon>
@@ -522,17 +509,17 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 			{educationFormFunction}
 
 			{/* Button to add another block */}
-			<Grid container spacing={2} sx={{ margin: "auto", width: "97%" }}>
+			<Grid container spacing={2} sx={{ margin: 'auto', width: '97%' }}>
 				<Grid item md={6} xs={3} />
 				<Grid item md={6} xs={9}>
 					<Box
 						sx={{
 							color: Colors.primaryColor,
-							fontSize: { sm: "1rem", xs: "0.8rem" },
-							textAlign: "end",
-							marginTop: "1rem",
-							paddingRight: "1rem",
-							cursor: "pointer"
+							fontSize: { sm: '1rem', xs: '0.8rem' },
+							textAlign: 'end',
+							marginTop: '1rem',
+							paddingRight: '1rem',
+							cursor: 'pointer',
 						}}
 						onClick={onAddBtnClick}
 					>
@@ -543,7 +530,6 @@ function EducationForm({ dataFromEducationInfo, dataFromFirebase }) {
 			{openHelp ? showHelpModal() : <div />}
 		</Box>
 	);
-
 }
 
 export default EducationForm;

@@ -1,33 +1,15 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
-import { Colors } from "../../constants/Colors";
+import React from 'react';
 
 function Footer() {
-  return (
-    <div>
-      <Box
-        sx={{
-          backgroundColor: Colors.primaryColor,
-          height: "4rem",
-          marginTop: "5rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <Typography
-          sx={{
-            color: Colors.white,
-            fontFamily: "Inria Sans",
-            textAlign: "center",
-            fontSize: { md: "1rem", xs: "0.7rem" }
-          }}
-        >
-          © {new Date().getFullYear()} Project Rebound | All Rights Reserved
-        </Typography>
-      </Box>
-    </div>
-  );
+	return (
+		<div className="mt-5">
+			<div className="h-16 flex items-center justify-center w-full bg-blue-900">
+				<p className="text-white font-InriaSans text-center text-lg md:text-base xs:text-xs">
+					© {new Date().getFullYear()} Project Rebound | All Rights Reserved
+				</p>
+			</div>
+		</div>
+	);
 }
 
 export default Footer;
