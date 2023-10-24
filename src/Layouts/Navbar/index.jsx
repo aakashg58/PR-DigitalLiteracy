@@ -126,7 +126,7 @@ function Navbar() {
 	};
 
 	return (
-		<AppBar style={{ background: Colors.backgroundColor }} position="static">
+		<AppBar style={{ background: 'white' }} position="static">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<Box
