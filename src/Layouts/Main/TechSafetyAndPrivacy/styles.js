@@ -1,4 +1,5 @@
 import { Colors } from "../../../constants/Colors";
+
 export const styleInput = {
   backgroundColor: Colors.backgroundColor,
   border: "None",

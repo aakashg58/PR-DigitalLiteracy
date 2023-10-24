@@ -28,13 +28,13 @@ const db = getFirestore(app);
 const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    let docRef = doc(db, "users", user.uid);
+    const {user} = res;
+    const docRef = doc(db, "users", user.uid);
     const docData = {
       date_created: Timestamp.fromDate(new Date()),
       uid: user.uid,
-      name: name,
-      email: email
+      name,
+      email
     };
     addData(docRef, docData);
   } catch (err) {

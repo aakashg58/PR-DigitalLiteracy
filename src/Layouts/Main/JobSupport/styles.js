@@ -1,4 +1,5 @@
 import { Colors } from "../../../constants/Colors";
+
 export const stepContainer = {
   backgroundColor: Colors.backgroundColor,
   padding: "1rem",
