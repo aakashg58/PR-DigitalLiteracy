@@ -8,5 +8,8 @@
 		"ecmaVersion": "latest",
 		"sourceType": "module"
 	},
-	"rules": {}
+	"rules": {
+		"react/react-in-jsx-scope": "off",
+		"react/function-component-definition": "off"
+	}
 }
