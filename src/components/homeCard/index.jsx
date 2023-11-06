@@ -1,30 +1,34 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const HomeCard = ({ index, image, heading, subItems, onClick }) => (
-	<div
-		className="bg-white rounded-xl cursor-pointer shadow-1 hover:shadow-12 hover:scale-105 transition-all duration-150"
-		onClick={onClick}
-		role="button"
-		tabIndex={index}
-		onKeyDown={onClick}
-	>
-		<div className="flex-col items-stretch justify-center w-full p-8">
-			<div className="border-b border-gray-200">
-				<img src={image} alt={heading} className="h-48 mx-auto my-4 p-4" />
+const HomeCard = ({ index, href, image, heading, subItems, onClick }) => (
+	<Link to={href}>
+		<div
+			className="bg-white rounded-xl cursor-pointer shadow-1 hover:shadow-12 hover:scale-105 transition-all duration-150"
+			onClick={onClick}
+			role="button"
+			tabIndex={index}
+			onKeyDown={onClick}
+		>
+			<div className="flex-col items-stretch justify-center w-full p-8">
+				<div className="border-b border-gray-200">
+					<img src={image} alt={heading} className="h-48 mx-auto my-4 p-4" />
+				</div>
+				<h5 className="text-xl font-bold py-3">{heading}</h5>
+				{subItems.map((e) => (
+					<p key={e} className="text-gray-800 text-lg text-end">
+						{e}
+					</p>
+				))}
 			</div>
-			<h5 className="text-xl font-bold py-3">{heading}</h5>
-			{subItems.map((e) => (
-				<p key={e} className="text-gray-800 text-lg text-end">
-					{e}
-				</p>
-			))}
 		</div>
-	</div>
+	</Link>
 );
 
 HomeCard.propTypes = {
 	index: PropTypes.number.isRequired,
+	href: PropTypes.string.isRequired,
 	image: PropTypes.string.isRequired,
 	heading: PropTypes.string.isRequired,
 	subItems: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -34,6 +38,8 @@ HomeCard.propTypes = {
 HomeCard.defaultProps = {
 	onClick: () => {},
 };
+
+export default HomeCard;
 
 // import Link from "@mui/material/";
 
@@ -172,5 +178,3 @@ HomeCard.defaultProps = {
 // 		</Box>
 // 	);
 // }
-
-export default HomeCard;
