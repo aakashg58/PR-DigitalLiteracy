@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,17 +19,17 @@ import { logout } from '../../firebase/firebase';
 
 import { useAuth } from '../../firebase/AuthContext';
 
-function Navbar() {
-	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	const [anchorElUser, setAnchorElUser] = React.useState(null);
-	const [settings, setSettings] = React.useState([]);
+const Navbar = () => {
+	const [anchorElNav, setAnchorElNav] = useState(null);
+	const [anchorElUser, setAnchorElUser] = useState(null);
+	const [settings, setSettings] = useState([]);
 
-	const [anchorElLearn, setanchorElLearn] = React.useState(null);
+	const [anchorElLearn, setanchorElLearn] = useState(null);
 	const openLearn = Boolean(anchorElLearn);
 
 	const { currentUser } = useAuth();
 
-	const pages = ['Home', 'Learn', 'Help'];
+	const pages = ['Home', 'Learn', 'Help', 'Public Services'];
 
 	const learnMenu = [
 		'Tech Use in Daily Life',
@@ -37,12 +37,11 @@ function Navbar() {
 		'Technology Safety and Privacy',
 		'Finance and Management',
 		'Job Application Support',
-		'Accessing Public Services and Resources',
 	];
 
 	const navigate = useNavigate();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (currentUser) {
 			console.log('current user is ', currentUser);
 			if (currentUser.uid === 'h9IvP69YaPfmcNFiqx78VUnwJ0v2') {
@@ -85,10 +84,6 @@ function Navbar() {
 				navigate('/jobSupport');
 				break;
 
-			case 5:
-				window.open('https://www.findhelp.org');
-				break;
-
 			default:
 				break;
 		}
@@ -105,6 +100,8 @@ function Navbar() {
 			setanchorElLearn(event.currentTarget);
 		} else if (index === 2) {
 			navigate('/help');
+		} else if (index === 3) {
+			window.open('https://www.findhelp.org');
 		}
 	};
 
@@ -297,6 +294,6 @@ function Navbar() {
 			</Container>
 		</AppBar>
 	);
-}
+};
 
 export default Navbar;
