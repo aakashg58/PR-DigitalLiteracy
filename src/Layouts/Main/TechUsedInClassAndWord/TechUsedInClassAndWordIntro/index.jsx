@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, MenuItem, Select, Divider } from '@mui/material';
+import { InputLabel, Box, Grid, MenuItem, Select, Divider } from '@mui/material';
 import { Colors } from '../../../../constants/Colors';
 
 export function TechUsedInClassAndWordIntro({ dataFromFirebase, dataFromClassAndWordIntro }) {
@@ -55,7 +55,10 @@ export function TechUsedInClassAndWordIntro({ dataFromFirebase, dataFromClassAnd
 					},
 				}}
 			>
-				<Select value={value} onChange={filteros}>
+				{/* add label to indicate that this filter is to select device/os */}
+
+				<InputLabel id="device-select-label">Filter by your Device</InputLabel>
+				<Select labelId="device-select-label" id="device-select" value={value} onChange={filteros}>
 					<MenuItem disabled>Mobile Devices</MenuItem>
 					<MenuItem value="iOS">iOS</MenuItem>
 					<MenuItem value="Android">Android</MenuItem>
