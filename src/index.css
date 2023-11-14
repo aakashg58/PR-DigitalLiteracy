@@ -7,6 +7,7 @@ body {
 	font-family: 'Inria Sans', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	@apply mt-36;
 }
 
 code {

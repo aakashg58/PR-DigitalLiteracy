@@ -1,299 +1,41 @@
-import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
+import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import PersonIcon from '@mui/icons-material/Person';
-import { useNavigate } from 'react-router-dom';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+
 import logo from '../../assets/images/logo.png';
-import { Colors } from '../../constants/Colors';
-import { logout } from '../../firebase/firebase';
+import ProfileMenu from './profileMenu';
 
-import { useAuth } from '../../firebase/AuthContext';
-
-const Navbar = () => {
-	const [anchorElNav, setAnchorElNav] = useState(null);
-	const [anchorElUser, setAnchorElUser] = useState(null);
-	const [settings, setSettings] = useState([]);
-
-	const [anchorElLearn, setanchorElLearn] = useState(null);
-	const openLearn = Boolean(anchorElLearn);
-
-	const { currentUser } = useAuth();
-
-	const pages = ['Home', 'Learn', 'Help', 'Public Services'];
-
-	const learnMenu = [
-		'Tech Use in Daily Life',
-		'Technology Use for Class and Word',
-		'Technology Safety and Privacy',
-		'Finance and Management',
-		'Job Application Support',
-	];
-
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (currentUser) {
-			console.log('current user is ', currentUser);
-			if (currentUser.uid === 'h9IvP69YaPfmcNFiqx78VUnwJ0v2') {
-				setSettings(['Logout', 'Add Videos', 'Help Manager']);
-			} else {
-				setSettings(['Logout']);
-			}
-		} else {
-			setSettings(['Login']);
-		}
-	}, [currentUser, navigate]);
-
-	const handleOpenNavMenu = (event) => {
-		setAnchorElNav(event.currentTarget);
-	};
-	const handleOpenUserMenu = (event) => {
-		setAnchorElUser(event.currentTarget);
-	};
-
-	// TODO: Add similar things for mobile phone
-	const handleCloseLearn = (index) => {
-		switch (index) {
-			case 0:
-				navigate('/techInDailyLife');
-				break;
-
-			case 1:
-				navigate('/techInClassAndWord');
-				break;
-
-			case 2:
-				navigate('/techSafetyAndPrivacy');
-				break;
-
-			case 3:
-				navigate('/financeAndManagement');
-				break;
-
-			case 4:
-				navigate('/jobSupport');
-				break;
-
-			default:
-				break;
-		}
-
-		setanchorElLearn(null);
-	};
-
-	const handleCloseNavMenu = (event, index) => {
-		setAnchorElNav(null);
-		if (index === 0) {
-			navigate('/');
-		} else if (index === 1) {
-			// learn tab
-			setanchorElLearn(event.currentTarget);
-		} else if (index === 2) {
-			navigate('/help');
-		} else if (index === 3) {
-			window.open('https://www.findhelp.org');
-		}
-	};
-
-	const handleCloseUserMenu = (setting) => {
-		setAnchorElUser(null);
-
-		if (setting === settings[0]) {
-			if (settings[0] === 'Login') {
-				navigate('/login');
-			} else {
-				logout();
-			}
-		} else if (settings.length === 3 && setting === settings[1]) {
-			// this is going to add youtube video page
-			navigate('/addYoutubeVideos');
-		} else if (settings.length === 3 && setting === settings[2]) {
-			navigate('/helpManager');
-		}
-	};
-
-	return (
-		<AppBar style={{ background: 'white' }} position="static">
-			<Container maxWidth="xl">
-				<Toolbar disableGutters>
-					<Box
-						component="img"
-						sx={{
-							display: { xs: 'none', md: 'flex' },
-							mr: 1,
-							height: '4rem',
-							marginTop: '1rem',
-							marginBottom: '1rem',
-							cursor: 'pointer',
-						}}
-						alt="project-rebound-logo"
-						src={logo}
-						onClick={() => {
-							navigate('/home');
-						}}
-					/>
-
-					{/* For mobile devices */}
-					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-						<IconButton
-							size="large"
-							aria-label="account of current user"
-							aria-controls="menu-appbar"
-							aria-haspopup="true"
-							onClick={handleOpenNavMenu}
-							color={Colors.primaryColor}
-						>
-							<MenuIcon />
-						</IconButton>
-						<Menu
-							id="menu-appbar"
-							anchorEl={anchorElNav}
-							anchorOrigin={{
-								vertical: 'bottom',
-								horizontal: 'left',
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'left',
-							}}
-							open={Boolean(anchorElNav)}
-							onClose={handleCloseNavMenu}
-							sx={{
-								display: { xs: 'block', md: 'none' },
-							}}
-						>
-							{pages.map((page, index) => (
-								<MenuItem
-									key={index}
-									onClick={() => {
-										handleCloseNavMenu(index);
-									}}
-								>
-									<Typography style={{ fontFamily: 'Inria Sans' }} textAlign="center">
-										{page}
-									</Typography>
-								</MenuItem>
-							))}
-						</Menu>
-					</Box>
-					{/* For mobile devices */}
-					<Box
-						component="img"
-						sx={{
-							display: { xs: 'flex', md: 'none' },
-							mr: 1,
-							height: '4rem',
-							marginTop: '1rem',
-							marginBottom: '1rem',
-						}}
-						alt="project-rebound-logo"
-						src={logo}
-					/>
-					<Typography
-						variant="h5"
-						noWrap
-						component="a"
-						href=""
-						sx={{
-							mr: 2,
-							display: { xs: 'flex', md: 'none' },
-							flexGrow: 1,
-							fontFamily: 'monospace',
-							fontWeight: 700,
-							letterSpacing: '.3rem',
-							color: 'inherit',
-							textDecoration: 'none',
-						}}
-					/>
-
-					{/* For medium devices */}
-					<Box
-						sx={{
-							flexGrow: 1,
-							display: { xs: 'none', md: 'flex' },
-							justifyContent: 'flex-end',
-							marginRight: '1rem',
-						}}
-					>
-						{pages.map((page, index) => (
-							<Box>
-								<Button
-									key={page}
-									onClick={(event) => handleCloseNavMenu(event, index)}
-									sx={{
-										my: 2,
-										color: Colors.primaryColor,
-										display: 'block',
-										alignItems: 'right',
-									}}
-								>
-									{page}
-								</Button>
-
-								<Menu
-									id="basic-menu"
-									anchorEl={anchorElLearn}
-									open={openLearn}
-									onClose={() => handleCloseLearn(-1)}
-									MenuListProps={{
-										'aria-labelledby': 'basic-button',
-									}}
-								>
-									{learnMenu.map((item, index) => (
-										<MenuItem onClick={() => handleCloseLearn(index)}>{item}</MenuItem>
-									))}
-								</Menu>
-							</Box>
-						))}
-					</Box>
-					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip>
-							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar sx={{ bgcolor: Colors.primaryColor }}>
-									<PersonIcon />
-								</Avatar>
-							</IconButton>
-						</Tooltip>
-						<Menu
-							sx={{ mt: '45px' }}
-							id="menu-appbar"
-							anchorEl={anchorElUser}
-							anchorOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
-							}}
-							open={Boolean(anchorElUser)}
-							onClose={handleCloseUserMenu}
-						>
-							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-									<Typography style={{ fontFamily: 'Inria Sans' }} textAlign="center">
-										{setting}
-									</Typography>
-								</MenuItem>
-							))}
-						</Menu>
-					</Box>
-				</Toolbar>
-			</Container>
-		</AppBar>
-	);
-};
+const Navbar = () => (
+	<AppBar position="fixed" component="nav" color="default" className="lg:px-52">
+		<Toolbar disableGutters>
+			{/* brand icon */}
+			<Link to="/">
+				<img src={logo} alt="home" className="h-16 mr-4 mx-auto my-4 hidden md:block" />
+			</Link>
+			<Button color="inherit" component={Link} to="/">
+				Home
+			</Button>
+			<div className="flex-grow flex justify-end gap-4">
+				<Button color="inherit" component={Link} to="/help">
+					Ask a Question
+				</Button>
+				<Button
+					variant="outlined"
+					color="primary"
+					startIcon={<LocationOnIcon />}
+					component="a"
+					href="https://www.findhelp.org"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Find help Nearby
+				</Button>
+			</div>
+			<ProfileMenu />
+		</Toolbar>
+	</AppBar>
+);
 
 export default Navbar;

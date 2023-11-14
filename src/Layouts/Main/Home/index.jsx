@@ -1,5 +1,5 @@
-import HomeIntro from './HomeIntro';
-import HomeMain from './HomeMain';
+import HomeIntro from './intro';
+import HomeMain from './main';
 
 const Home = () => (
 	<>

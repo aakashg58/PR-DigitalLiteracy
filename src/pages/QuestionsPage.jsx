@@ -6,7 +6,6 @@ import _uniqueId from 'lodash/uniqueId';
 import { db } from '../firebase/firebase';
 import Navbar from '../Layouts/Navbar';
 import { Colors } from '../constants/Colors';
-import styles from '../Layouts/Main/Home/HomeIntro/index.module.css';
 import QuestionBox from '../Layouts/Main/FAQ/QuestionBox';
 import { useAuth } from '../firebase/AuthContext';
 
@@ -24,7 +23,7 @@ function QuestionsPage() {
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await getDocs(collection(db, 'questions'));
-			setQuestions(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+			setQuestions(data.docs.map((d) => ({ ...d.data(), id: d.id })));
 		};
 		fetchData();
 	}, []);
@@ -108,7 +107,7 @@ function QuestionsPage() {
 		</Box>
 	);
 	return (
-		<Box sx={styles.questionsContainer}>
+		<Box>
 			<Navbar />
 			<Box
 				sx={{
@@ -147,7 +146,7 @@ function QuestionsPage() {
 						maxWidth: '100%',
 					}}
 				>
-					Don't see your question?
+					Don&apos;t see your question?
 					<Button
 						variant="contained"
 						onClick={() => handleOpen()}
@@ -173,8 +172,8 @@ function QuestionsPage() {
 						width: '90%', // Makes boxes take full width of the container
 					}}
 				>
-					{questions.map((question, index) => (
-						<QuestionBox key={index} question={question} />
+					{questions.map((question) => (
+						<QuestionBox key={question.id} question={question} />
 					))}
 				</Box>
 			</Box>
