@@ -1,41 +1,46 @@
+import { cloneElement } from 'react';
+import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useMediaQuery } from '@mui/material';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import DesktopNavBar from './desktop';
+import MobileNavBar from './mobile';
 
-import logo from '../../assets/images/logo.png';
-import ProfileMenu from './profileMenu';
+function ElevationScroll(props) {
+	const { children } = props;
+	// Note that you normally won't need to set the window ref as useScrollTrigger
+	// will default to window.
+	// This is only being set here because the demo is in an iframe.
+	const trigger = useScrollTrigger({
+		disableHysteresis: true,
+		threshold: 0,
+	});
 
-const Navbar = () => (
-	<AppBar position="fixed" component="nav" color="default" className="lg:px-52">
-		<Toolbar disableGutters>
-			{/* brand icon */}
-			<Link to="/">
-				<img src={logo} alt="home" className="h-16 mr-4 mx-auto my-4 hidden md:block" />
-			</Link>
-			<Button color="inherit" component={Link} to="/">
-				Home
-			</Button>
-			<div className="flex-grow flex justify-end gap-4">
-				<Button color="inherit" component={Link} to="/help">
-					Ask a Question
-				</Button>
-				<Button
-					variant="outlined"
-					color="primary"
-					startIcon={<LocationOnIcon />}
-					component="a"
-					href="https://www.findhelp.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Find help Nearby
-				</Button>
-			</div>
-			<ProfileMenu />
-		</Toolbar>
-	</AppBar>
-);
+	return cloneElement(children, {
+		elevation: trigger ? 4 : 0,
+	});
+}
+
+ElevationScroll.propTypes = {
+	children: PropTypes.element.isRequired,
+};
+
+const Navbar = () => {
+	// media query to get if device is mobile
+	const isMobile = useMediaQuery('(max-width: 768px)');
+	return (
+		<ElevationScroll>
+			{isMobile ? (
+				<AppBar component="nav" color="" className="lg:bg-transparent px-6 py-2">
+					<MobileNavBar />
+				</AppBar>
+			) : (
+				<AppBar component="nav" color="" className="lg:px-52 border-b border-gray-200 bg-transparent">
+					<DesktopNavBar />
+				</AppBar>
+			)}
+		</ElevationScroll>
+	);
+};
 
 export default Navbar;

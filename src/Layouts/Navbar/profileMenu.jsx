@@ -4,11 +4,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Icon, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { logout } from '../../firebase/firebase';
 import { useAuth } from '../../firebase/AuthContext';
 import PATHS from '../../paths';
 
-const ProfileMenu = () => {
+const ProfileMenu = ({ isMobile }) => {
 	const [settings, setSettings] = useState([]);
 	const { currentUser } = useAuth();
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -57,17 +59,34 @@ const ProfileMenu = () => {
 
 	return (
 		<>
-			<IconButton
-				size="large"
-				edge="end"
-				aria-label="account of current user"
-				aria-controls="menu-appbar"
-				aria-haspopup="true"
-				onClick={handleMenu}
-				color="inherit"
-			>
-				<AccountCircle />
-			</IconButton>
+			{isMobile ? (
+				<ListItemButton
+					size="large"
+					edge="end"
+					aria-label="account of current user"
+					aria-controls="menu-appbar"
+					aria-haspopup="true"
+					onClick={handleMenu}
+					color="inherit"
+				>
+					<ListItemIcon>
+						<AccountCircle />
+					</ListItemIcon>
+					{isMobile && <ListItemText primary="Profile" />}
+				</ListItemButton>
+			) : (
+				<IconButton
+					size="large"
+					edge="end"
+					aria-label="account of current user"
+					aria-controls="menu-appbar"
+					aria-haspopup="true"
+					onClick={handleMenu}
+					color="inherit"
+				>
+					<AccountCircle />
+				</IconButton>
+			)}
 			<Menu
 				id="menu-appbar"
 				anchorEl={anchorEl}
@@ -91,6 +110,14 @@ const ProfileMenu = () => {
 			</Menu>
 		</>
 	);
+};
+
+ProfileMenu.propTypes = {
+	isMobile: PropTypes.bool,
+};
+
+ProfileMenu.defaultProps = {
+	isMobile: false,
 };
 
 export default ProfileMenu;

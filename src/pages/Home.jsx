@@ -6,8 +6,10 @@ import Navbar from '../Layouts/Navbar';
 function HomePage() {
 	return (
 		<div>
-			<Navbar />
-			<Home />
+			<div className="px-5 md:px-0">
+				<Navbar />
+				<Home />
+			</div>
 			<Footer />
 		</div>
 	);
