@@ -19,9 +19,7 @@ function AddYoutubeVideos() {
 
 	return (
 		<div>
-			<Navbar />
 			<YouTubeVideo />
-			<Footer />
 		</div>
 	);
 }

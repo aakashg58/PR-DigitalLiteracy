@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { doc, getDoc, collection, getDocs, Timestamp, addDoc, updateDoc } from 'firebase/firestore';
-import { Box, Grid, Button, TextField, Modal, IconButton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import _uniqueId from 'lodash/uniqueId';
+import { doc, collection, getDocs, Timestamp, addDoc, updateDoc } from 'firebase/firestore';
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Button, TextField } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { db } from '../firebase/firebase';
 import Navbar from '../Layouts/Navbar';
-import { Colors } from '../constants/Colors';
 import QuestionBox from '../Layouts/Main/FAQ/QuestionBox';
 import { useAuth } from '../firebase/AuthContext';
-
-import { addData } from '../firebase/firebaseReadWrite';
 
 import getUserData from '../components/getUserData';
 
 function QuestionsPage() {
 	const [questions, setQuestions] = useState([]);
-	const [open, setOpen] = useState(false);
-	const [questionTitle, setQuestionTitle] = useState('');
-	const [questionText, setQuestionText] = useState('');
-	const { currentUser } = useAuth();
-	const navigate = useNavigate();
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await getDocs(collection(db, 'questions'));
@@ -27,12 +19,32 @@ function QuestionsPage() {
 		};
 		fetchData();
 	}, []);
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	const handleClose = () => {
-		setOpen(false);
-	};
+
+	return (
+		<div className="px-4 md:px-64">
+			<h1 className="text-2xl text-center font-bold p-12">
+				Scroll through the questions that fellow community members have previously asked.
+			</h1>
+			<NewQuestion />
+			{questions.map((q) => (
+				<QuestionBox
+					key={q.id}
+					title={q.questionTitle}
+					postedBy={q.userName}
+					postedOn={q.timeStamp}
+					url={`/questions/${q.id}`}
+				/>
+			))}
+		</div>
+	);
+}
+
+const NewQuestion = () => {
+	const [questionTitle, setQuestionTitle] = useState('');
+	const [questionText, setQuestionText] = useState('');
+	const { currentUser } = useAuth();
+	const [isExpanded, setIsExpanded] = useState(false);
+
 	const handleSubmit = async () => {
 		console.log('HANDLE SUBMIT');
 		if (currentUser !== null) {
@@ -60,124 +72,37 @@ function QuestionsPage() {
 		}
 	};
 
-	const body = (
-		<Box
-			sx={{
-				position: 'absolute',
-				width: 400,
-				bgcolor: 'background.paper',
-				border: '2px solid #000',
-				boxShadow: 24,
-				p: 4,
-				top: '50%',
-				left: '50%',
-				transform: 'translate(-50%, -50%)',
-			}}
-		>
-			<IconButton
-				sx={{
-					position: 'absolute',
-					right: 8,
-					top: 8,
-				}}
-				onClick={handleClose}
-			>
-				x
-			</IconButton>
-			<h2 id="modal-title">Post a Question</h2>
-			<TextField
-				fullWidth
-				id="question-title"
-				label="Question Title"
-				value={questionTitle}
-				onChange={(e) => setQuestionTitle(e.target.value)}
-				margin="normal"
-			/>
-			<br />
-			<TextField
-				fullWidth
-				id="question-text"
-				label="Question Text"
-				value={questionText}
-				onChange={(e) => setQuestionText(e.target.value)}
-				multiline
-				rows={4}
-			/>
-			<Button onClick={handleSubmit}>Submit</Button>
-		</Box>
-	);
 	return (
-		<Box>
-			<Navbar />
-			<Box
-				sx={{
-					marginTop: '2rem',
-					marginLeft: { md: '8rem', sm: '8rem', xs: '1rem' },
-					maxWidth: '100%',
-				}}
-			>
-				<Box
-					sx={{
-						fontFamily: 'Inria Sans',
-						color: Colors.primaryColor,
-						fontWeight: '700',
-						textAlign: 'left',
-						fontSize: {
-							md: '2.5rem',
-							sm: '3rem',
-							xs: '2rem',
-						},
-						maxWidth: '100%',
-					}}
-				>
-					Scroll through the questions that fellow community members have previously asked.
-				</Box>
-				<Box
-					sx={{
-						fontFamily: 'Inria Sans',
-						color: Colors.primaryColor,
-						fontWeight: '200',
-						textAlign: 'left',
-						fontSize: {
-							md: '1.5rem',
-							sm: '3rem',
-							xs: '2rem',
-						},
-						maxWidth: '100%',
-					}}
-				>
-					Don&apos;t see your question?
-					<Button
-						variant="contained"
-						onClick={() => handleOpen()}
-						sx={{
-							marginLeft: '1rem',
-							backgroundColor: Colors.primaryColor,
-							color: Colors.white,
-							'&:hover': {
-								backgroundColor: Colors.primaryColorDark,
-							},
-						}}
-					>
-						Post a question
+		<Accordion>
+			<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+				<h2 className="text-xl">Post a new question</h2>
+			</AccordionSummary>
+			<AccordionDetails>
+				<TextField
+					fullWidth
+					id="question-title"
+					label="Question Title"
+					value={questionTitle}
+					onChange={(e) => setQuestionTitle(e.target.value)}
+					margin="normal"
+				/>
+				<br />
+				<TextField
+					fullWidth
+					id="question-text"
+					label="Question Text"
+					value={questionText}
+					onChange={(e) => setQuestionText(e.target.value)}
+					multiline
+					rows={4}
+				/>
+				<div className="flex justify-end mt-4">
+					<Button variant="contained" onClick={handleSubmit}>
+						Submit
 					</Button>
-					<Modal open={open} onClose={handleClose} aria-labelledby="modal-title">
-						{body}
-					</Modal>
-				</Box>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						width: '90%', // Makes boxes take full width of the container
-					}}
-				>
-					{questions.map((question) => (
-						<QuestionBox key={question.id} question={question} />
-					))}
-				</Box>
-			</Box>
-		</Box>
+				</div>
+			</AccordionDetails>
+		</Accordion>
 	);
-}
+};
 export default QuestionsPage;

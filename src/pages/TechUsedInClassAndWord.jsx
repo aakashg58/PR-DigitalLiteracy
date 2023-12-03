@@ -34,13 +34,11 @@ function TechUsedInClassAndWord() {
 
 	return (
 		<div>
-			<Navbar />
 			<TechUsedInClassAndWordIntro
 				dataFromClassAndWordIntro={dataFromClassAndWordIntro}
 				dataFromFirebase={dataFromFirebase}
 			/>
 			<YouTubeVideoSection osvalue={osvalue} />
-			<Footer />
 		</div>
 	);
 }

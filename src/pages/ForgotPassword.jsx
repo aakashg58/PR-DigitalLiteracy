@@ -42,7 +42,6 @@ function ForgotPassword() {
 
 	return (
 		<div>
-			<Navbar />
 			<div style={{ marginTop: '5rem' }}>
 				<Box
 					sx={{
@@ -128,7 +127,6 @@ function ForgotPassword() {
 					</Grid>
 				</Box>
 			</div>
-			<Footer />
 		</div>
 	);
 }

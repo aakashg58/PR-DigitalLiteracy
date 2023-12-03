@@ -93,7 +93,6 @@ function ResumeBuilder() {
 
 	return (
 		<div>
-			<Navbar />
 			<div>
 				<ResumeBuilderIntro />
 				<div style={{ padding: '1rem', marginTop: '3rem' }}>
@@ -125,7 +124,6 @@ function ResumeBuilder() {
 					<NavigationButtons resumeData={resumeData} dataFromFirebase={dataFromFirebase} />
 				</div>
 			</div>
-			<Footer />
 		</div>
 	);
 }

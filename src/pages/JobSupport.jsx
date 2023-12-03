@@ -26,10 +26,8 @@ function JobSupport() {
 
 	return (
 		<div>
-			<Navbar />
 			<JobSupportIntro />
 			<ResumeSection />
-			<Footer />
 		</div>
 	);
 }

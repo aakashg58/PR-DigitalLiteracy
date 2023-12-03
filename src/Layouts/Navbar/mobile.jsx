@@ -12,38 +12,6 @@ import PropTypes from 'prop-types';
 import logo from '../../assets/images/logo.png';
 import ProfileMenu from './profileMenu';
 
-const drawerItems = (
-	<List>
-		<ListItem disablePadding>
-			<ListItemButton component={Link} to="/">
-				<ListItemIcon>
-					<img src={logo} alt="home" className="h-10" />
-				</ListItemIcon>
-				<ListItemText primary="Home" />
-			</ListItemButton>
-		</ListItem>
-		<ListItem disablePadding>
-			<ListItemButton component={Link} to="/help">
-				<ListItemIcon>
-					<QuestionAnswer />
-				</ListItemIcon>
-				<ListItemText primary="Ask a Question" />
-			</ListItemButton>
-		</ListItem>
-		<ListItem disablePadding>
-			<ListItemButton component="a" href="https://www.findhelp.org">
-				<ListItemIcon>
-					<LocationOnIcon />
-				</ListItemIcon>
-				<ListItemText primary="Find help Nearby" />
-			</ListItemButton>
-		</ListItem>
-		<ListItem disablePadding>
-			<ProfileMenu isMobile />
-		</ListItem>
-	</List>
-);
-
 const MobileNavBar = () => {
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const handleDrawerToggle = () => {
@@ -70,6 +38,38 @@ const MobileNavBar = () => {
 const MobileDrawer = (props) => {
 	const { mobileOpen, onClose } = props;
 	const container = window !== undefined ? () => window.document.body : undefined;
+
+	const drawerItems = (
+		<List>
+			<ListItem disablePadding>
+				<ListItemButton component={Link} to="/" onClick={onClose}>
+					<ListItemIcon>
+						<img src={logo} alt="home" className="h-10" />
+					</ListItemIcon>
+					<ListItemText primary="Home" />
+				</ListItemButton>
+			</ListItem>
+			<ListItem disablePadding>
+				<ListItemButton component={Link} to="/help" onClick={onClose}>
+					<ListItemIcon>
+						<QuestionAnswer />
+					</ListItemIcon>
+					<ListItemText primary="Ask a Question" />
+				</ListItemButton>
+			</ListItem>
+			<ListItem disablePadding>
+				<ListItemButton component="a" href="https://www.findhelp.org" onClick={onClose}>
+					<ListItemIcon>
+						<LocationOnIcon />
+					</ListItemIcon>
+					<ListItemText primary="Find help Nearby" />
+				</ListItemButton>
+			</ListItem>
+			<ListItem disablePadding>
+				<ProfileMenu isMobile />
+			</ListItem>
+		</List>
+	);
 
 	return (
 		<nav>

@@ -34,13 +34,11 @@ function TechSafetyAndPrivacy() {
 
 	return (
 		<div>
-			<Navbar />
 			<TechSafetyAndPrivacyIntro
 				dataFromSafetyAndPrivacyIntro={dataFromSafetyAndPrivacyIntro}
 				dataFromFirebase={dataFromFirebase}
 			/>
 			<YouTubeVideoSection osvalue={osvalue} />
-			<Footer />
 		</div>
 	);
 }

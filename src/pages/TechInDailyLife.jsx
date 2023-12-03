@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
+import CircularProgress from '@mui/material/CircularProgress';
 import Navbar from '../Layouts/Navbar';
 import Footer from '../Layouts/Footer';
 import TechInDailyLifeIntro from '../Layouts/Main/TechInDailyLife/TechInDailyLifeintro';
@@ -26,14 +27,14 @@ function TechInDailyLife() {
 
 	return (
 		<div>
-			<Navbar />
 			{dataFromFirebase ? (
 				<TechInDailyLifeIntro dataFromDailyLifeIntro={dataFromDailyLifeIntro} dataFromFirebase={dataFromFirebase} />
 			) : (
-				<div>Loading...</div>
+				<div>
+					<CircularProgress />
+				</div>
 			)}
 			{osvalue.length > 0 ? <YouTubeVideoSection osvalue={osvalue} /> : <div>Loading...</div>}
-			<Footer />
 		</div>
 	);
 }

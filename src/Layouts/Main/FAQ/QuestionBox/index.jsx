@@ -1,69 +1,39 @@
-import { Box, Button, Typography, Modal } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { Colors } from '../../../../constants/Colors';
+import { Button } from '@mui/material';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-function QuestionBox({ question }) {
-	const navigate = useNavigate();
-	const formattedDate = question.timeStamp
-		? question.timeStamp.toDate().toLocaleDateString()
+const QuestionBox = (props) => {
+	const { title, postedBy, postedOn, url } = props;
+	const formattedDate = postedOn
+		? postedOn.toDate().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
 		: 'Error cannot find date';
 
 	return (
-		<Box
-			sx={{
-				border: `1px solid ${Colors.primaryColor}`,
-				boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-				padding: '1rem',
-				margin: '1rem 0',
-				borderRadius: '5px',
-			}}
-		>
-			<Typography
-				sx={{
-					fontFamily: 'Inria Sans',
-					color: Colors.primaryColor,
-					fontWeight: '700',
-					fontSize: { md: '1.5rem', xs: '1.2rem' },
-				}}
-			>
-				{question.questionTitle}
-			</Typography>
-			<Typography
-				sx={{
-					fontFamily: 'Inria Sans',
-					color: Colors.primaryColor,
-					fontWeight: '400',
-					fontSize: { md: '1rem', xs: '1.2rem' },
-				}}
-			>
-				Posted on: {formattedDate}
-			</Typography>
-			<Typography
-				sx={{
-					fontFamily: 'Inria Sans',
-					color: Colors.primaryColor,
-					fontWeight: '600',
-					fontSize: { md: '1rem', xs: '1.2rem' },
-					marginBottom: '1rem',
-				}}
-			>
-				By: {question.userName}
-			</Typography>
-			<Button
-				variant="contained"
-				onClick={() => navigate(`/questions/${question.id}`)}
-				sx={{
-					backgroundColor: Colors.primaryColor,
-					color: Colors.white,
-					'&:hover': {
-						backgroundColor: Colors.primaryColorDark,
-					},
-				}}
-			>
-				See the Question and Answers
-			</Button>
-		</Box>
+		<div className="border-b border-gray-300 p-4 my-4 hover:shadow-md hover:rounded-md">
+			<h2 className="font-bold text-primary text-lg md:text-xl">{title}</h2>
+			<p className="text-sm md:text-base mb-2 text-gray-700">{formattedDate}</p>
+			<p>
+				Asked by:
+				<span className="font-semibold text-primary text-base mb-4"> {postedBy}</span>
+			</p>
+			<Link to={url} className="flex justify-end">
+				<Button type="button" className="bg-primary text-white hover:bg-primary-dark py-2 px-4 rounded-md">
+					See the Question and Answers
+				</Button>
+			</Link>
+		</div>
 	);
-}
+};
+
+QuestionBox.propTypes = {
+	title: PropTypes.string.isRequired,
+	postedBy: PropTypes.string.isRequired,
+	postedOn: PropTypes.string,
+	url: PropTypes.string.isRequired,
+};
+
+QuestionBox.defaultProps = {
+	postedOn: null,
+};
 
 export default QuestionBox;

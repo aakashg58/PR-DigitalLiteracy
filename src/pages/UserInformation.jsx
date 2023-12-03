@@ -62,7 +62,6 @@ function UserInformation() {
 
 	return (
 		<div>
-			<Navbar />
 			<div style={{ marginTop: '5rem' }}>
 				<Box
 					sx={{
@@ -188,7 +187,6 @@ function UserInformation() {
 					</Grid>
 				</Box>
 			</div>
-			<Footer />
 		</div>
 	);
 }

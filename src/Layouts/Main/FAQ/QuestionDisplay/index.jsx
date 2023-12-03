@@ -97,7 +97,6 @@ function QuestionDisplay() {
 
 	return (
 		<>
-			<NavBar />
 			{question && (
 				<Box
 					sx={{
