@@ -6,6 +6,7 @@ import Footer from '../Layouts/Footer';
 import TechSafetyAndPrivacyIntro from '../Layouts/Main/TechSafetyAndPrivacy/TechSafetyAndPrivacyIntro';
 import YouTubeVideoSection from '../Layouts/Main/TechInDailyLife/YouTubeVideoSection';
 import { db } from '../firebase/firebase';
+import FilterPanel from '../components/FilterPanel';
 
 function TechSafetyAndPrivacy() {
 	const navigate = useNavigate();
@@ -33,13 +34,16 @@ function TechSafetyAndPrivacy() {
 	}, [navigate]);
 
 	return (
-		<div>
-			<TechSafetyAndPrivacyIntro
-				dataFromSafetyAndPrivacyIntro={dataFromSafetyAndPrivacyIntro}
-				dataFromFirebase={dataFromFirebase}
-			/>
-			<YouTubeVideoSection osvalue={osvalue} />
-		</div>
+		<>
+			<FilterPanel filters={['filter1', 'filter2']} />
+			<div className="pl-80">
+				<TechSafetyAndPrivacyIntro
+					dataFromSafetyAndPrivacyIntro={dataFromSafetyAndPrivacyIntro}
+					dataFromFirebase={dataFromFirebase}
+				/>
+				<YouTubeVideoSection osvalue={osvalue} />
+			</div>
+		</>
 	);
 }
 

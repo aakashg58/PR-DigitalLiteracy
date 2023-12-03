@@ -6,6 +6,7 @@ import Footer from '../Layouts/Footer';
 import TechUsedInClassAndWordIntro from '../Layouts/Main/TechUsedInClassAndWord/TechUsedInClassAndWordIntro';
 import YouTubeVideoSection from '../Layouts/Main/TechInDailyLife/YouTubeVideoSection';
 import { db } from '../firebase/firebase';
+import FilterPanel from '../components/FilterPanel';
 
 function TechUsedInClassAndWord() {
 	const navigate = useNavigate();
@@ -33,13 +34,16 @@ function TechUsedInClassAndWord() {
 	}, [navigate]);
 
 	return (
-		<div>
-			<TechUsedInClassAndWordIntro
-				dataFromClassAndWordIntro={dataFromClassAndWordIntro}
-				dataFromFirebase={dataFromFirebase}
-			/>
-			<YouTubeVideoSection osvalue={osvalue} />
-		</div>
+		<>
+			<FilterPanel filters={['filter1', 'filter2']} />
+			<div className="pl-80">
+				<TechUsedInClassAndWordIntro
+					dataFromClassAndWordIntro={dataFromClassAndWordIntro}
+					dataFromFirebase={dataFromFirebase}
+				/>
+				<YouTubeVideoSection osvalue={osvalue} />
+			</div>
+		</>
 	);
 }
 

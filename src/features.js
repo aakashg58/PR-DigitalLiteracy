@@ -35,7 +35,7 @@ const cardData = [
 		image: cardImage5,
 		heading: 'Job Application Support',
 		subItems: ['Job Search', 'Identify Your Skills', 'Resume Builder'],
-		href: '',
+		href: PATHS.jobSupport,
 	},
 ];
 

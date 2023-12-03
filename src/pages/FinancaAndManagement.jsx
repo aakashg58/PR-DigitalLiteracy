@@ -6,6 +6,7 @@ import Footer from '../Layouts/Footer';
 import YouTubeVideoSection from '../Layouts/Main/TechInDailyLife/YouTubeVideoSection';
 import FinanceAndManagementIntro from '../Layouts/Main/FinanceAndManagement/FinanceAndManagementIntro';
 import { db } from '../firebase/firebase';
+import FilterPanel from '../components/FilterPanel';
 
 function FinanceAndManagement() {
 	const navigate = useNavigate();
@@ -34,13 +35,14 @@ function FinanceAndManagement() {
 
 	return (
 		<div>
-			<Navbar />
-			<FinanceAndManagementIntro
-				dataFromFinanceAndManagementIntro={dataFromFinanceAndManagementIntro}
-				dataFromFirebase={dataFromFirebase}
-			/>
-			<YouTubeVideoSection osvalue={osvalue} />
-			<Footer />
+			<FilterPanel filters={['filter1', 'filter2']} />
+			<div className="md:pl-80">
+				<FinanceAndManagementIntro
+					dataFromFinanceAndManagementIntro={dataFromFinanceAndManagementIntro}
+					dataFromFirebase={dataFromFirebase}
+				/>
+				<YouTubeVideoSection osvalue={osvalue} />
+			</div>
 		</div>
 	);
 }

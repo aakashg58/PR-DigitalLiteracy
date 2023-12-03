@@ -7,6 +7,7 @@ import Footer from '../Layouts/Footer';
 import TechInDailyLifeIntro from '../Layouts/Main/TechInDailyLife/TechInDailyLifeintro';
 import YouTubeVideoSection from '../Layouts/Main/TechInDailyLife/YouTubeVideoSection';
 import { db } from '../firebase/firebase';
+import FilterPanel from '../components/FilterPanel';
 
 function TechInDailyLife() {
 	const [osvalue, setosValue] = useState([]);
@@ -26,16 +27,19 @@ function TechInDailyLife() {
 	};
 
 	return (
-		<div>
-			{dataFromFirebase ? (
-				<TechInDailyLifeIntro dataFromDailyLifeIntro={dataFromDailyLifeIntro} dataFromFirebase={dataFromFirebase} />
-			) : (
-				<div>
-					<CircularProgress />
-				</div>
-			)}
-			{osvalue.length > 0 ? <YouTubeVideoSection osvalue={osvalue} /> : <div>Loading...</div>}
-		</div>
+		<>
+			<FilterPanel filters={['filter1', 'filter2']} />
+			<div className="md:pl-80">
+				{dataFromFirebase ? (
+					<TechInDailyLifeIntro dataFromDailyLifeIntro={dataFromDailyLifeIntro} dataFromFirebase={dataFromFirebase} />
+				) : (
+					<div>
+						<CircularProgress />
+					</div>
+				)}
+				{osvalue.length > 0 ? <YouTubeVideoSection osvalue={osvalue} /> : <div>Loading...</div>}
+			</div>
+		</>
 	);
 }
 
