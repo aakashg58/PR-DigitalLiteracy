@@ -36,7 +36,7 @@ function TechUsedInClassAndWord() {
 	return (
 		<>
 			<FilterPanel filters={['filter1', 'filter2']} />
-			<div className="pl-80">
+			<div className="md:pl-80">
 				<TechUsedInClassAndWordIntro
 					dataFromClassAndWordIntro={dataFromClassAndWordIntro}
 					dataFromFirebase={dataFromFirebase}
