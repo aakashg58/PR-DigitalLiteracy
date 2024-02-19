@@ -105,11 +105,17 @@ export function YouTubeVideoSection({ osvalue }) {
 			<Box sx={{ margin: 'auto', width: '70%', marginTop: '2rem' }}>
 				<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }}>
 					{videos && videos.length > 0 ? (
-						videos.map((video, index) => (
-							<Grid item xs={8} sm={4} md={6} key={video.tags}>
-								<div id={`player-${index}`} />
-							</Grid>
-						))
+						videos.map((video) => {
+							const match = video.url.match(videoIdRegex);
+							const embedId = match ? match[1] : null;
+
+							return(
+								<Grid item xs={8} sm={4} md={6} key={video.tags}>
+									<YoutubeEmbed embedId={embedId} stopTimes={video.stopTimes} messages={video.messages} />
+								</Grid>
+							)
+							
+						})
 					) : (
 						<Box
 							sx={{
