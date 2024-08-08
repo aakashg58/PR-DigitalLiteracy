@@ -18,6 +18,7 @@ const PATHS = {
 	restoreVideos: '/restoreVideos',
 	updateVideo: '/updateVideo/:videoId',
 	helpManager: '/helpManager',
+	addQuizQuestions: '/addQuizQuestions',
 };
 
 export default PATHS;

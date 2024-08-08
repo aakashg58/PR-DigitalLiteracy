@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-
 	mode: 'jit',
 	future: {
 		removeDeprecatedGapUtilities: true,
@@ -13,10 +12,11 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				'primaryColor': '#053254',
-				'primaryColorLight': '#053254CC',
-				'backgroundColor': '#ECF4FA',
-				'customGray': '#D3D3D3',
+				primaryColor: '#053254',
+				primaryColorLight: '#053254CC',
+				lightBlue: '#1665c0',
+				backgroundColor: '#ECF4FA',
+				customGray: '#D3D3D3',
 			},
 			boxShadow: {
 				0: 'none',

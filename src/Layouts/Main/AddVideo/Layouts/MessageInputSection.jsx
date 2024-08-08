@@ -1,132 +1,164 @@
-import React, { useEffect } from 'react';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import React from 'react';
 import PropTypes from 'prop-types';
-import InputField, { TextInputField } from '../Components/InputFields';
+import TextInputField from '../../../../components/InputFields/TextInputField';
+import TextAreaField from '../../../../components/InputFields/TextAreaField';
+import CheckboxInputField from '../../../../components/InputFields/CheckboxInputField';
+import Button from '../../../../components/Buttons/Button';
 
 export default function MessageInputSection({
-	onAddBtnClick,
-	isChapterSegAvailable,
-	isChapterSegChecked,
+	handleAddSegment,
+	isChapterSegmentAvailable,
+	isChapterSegmentChecked,
 	messages,
 	stopTimes,
-	handleChange,
-	remove,
-	handleClickTime,
+	handleStopTimesChange,
+	validateStopTimes,
+	handleMessagesChange,
+	handleRemoveSegment,
+	handleGetTimestamp,
 	handleChaperCheckboxChange,
-	userInputStopTimes,
-	setUserInputStopTimes,
 }) {
-	// This useEffect is used to format the stop times passed in video Edit from seconds to minutes and seconds
-	useEffect(() => {
-		const formattedArray = stopTimes?.map((time) => {
-			const minutes = Math.floor(time / 60);
-			const remainingSeconds = time % 60;
-
-			return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-		});
-
-		setUserInputStopTimes(formattedArray);
-	}, []);
-
-	// Every User Input is stored in the state and then passed to the parent component for conversion if it's valid. If the input is NOT valid, the parent component will store it as NAN that gets validated. Ideally, we only want to check if the input is valid when the user clicks off the input field. This would be good practice to avoid unnecessary re-renders.
-	const handleStopTimeChange = (index, event) => {
-		const newStopTimes = [...userInputStopTimes];
-		newStopTimes[index] = event.target.value;
-		setUserInputStopTimes(newStopTimes);
-		handleChange(index, event);
-	};
-
-	const messageInput = messages.map((input, index) => (
-		<div key={messages.length - index - 1} className="flex flex-col gap-6">
-			<div className="flex justify-between items-center">
-				<div className="text-primaryColor font-semibold font-sans">Segment #{messages.length - index}</div>
-				<button
-					type="button"
-					className="text-primaryColor font-semibold font-sans"
-					onClick={() => {
-						remove(messages.length - index - 1);
-					}}
-				>
-					- Remove Segment
-				</button>
-			</div>
-
-			<div className="flex justify-between items-center gap-2">
-				<div className="grow">
-					<InputField
-						headerText="Stop Times:"
-						placeHolder="Specify pause times for video in format min:sec, e.g. 0:30"
-						value={userInputStopTimes[messages.length - index - 1]}
-						eventName="stopTimes"
-						onChangeFunction={handleStopTimeChange}
-						id={{
-							value: messages.length - index - 1,
-							tag: 'stopTimeTextField_',
-						}}
-					/>
-				</div>
-				<div>
-					<button
-						type="button"
-						className="bg-primaryColor text-white font-semibold font-sans h-10 px-2 rounded-lg whitespace-nowrap"
-						onClick={(e) => handleClickTime(index, e)}
-					>
-						Get Timestamp
-					</button>
-				</div>
-			</div>
-
-			<div className="flex flex-col gap-2">
-				<div className="text-primaryColor font-semibold font-sans">Confirmation Message:</div>
-				<TextInputField
-					value={messages[messages.length - index - 1]}
-					id={{
-						value: messages.length - index - 1,
-						tag: 'confirmationTextField_',
-					}}
-					onChangeFunction={handleChange}
-					eventName="messages"
-				/>
-			</div>
-		</div>
-	));
-
 	return (
 		<div className="bg-backgroundColor shadow-md rounded-xl py-12 px-12">
 			<div className="flex flex-col gap-6">
 				<div className="flex justify-between items-center">
 					<div>
-						{isChapterSegAvailable && (
-							<FormControlLabel
-								control={<Checkbox checked={isChapterSegChecked} onChange={handleChaperCheckboxChange} />}
-								label="Use default segmentation from the video"
+						{isChapterSegmentAvailable && (
+							<CheckboxInputField
+								value={isChapterSegmentChecked}
+								onChangeFunction={handleChaperCheckboxChange}
+								headerText="Use default segmentation from the video"
+								id="chapterSegmentationCheckbox_"
 							/>
 						)}
 					</div>
 					<div>
-						{!isChapterSegChecked && (
-							<button type="button" onClick={onAddBtnClick} className="text-primaryColor font-semibold font-sans">
-								+ Add a Segment
-							</button>
+						{!isChapterSegmentChecked && (
+							<Button
+								text="+ Add a Segment"
+								onChangeFunction={() => handleAddSegment()}
+								className="text-primaryColor font-semibold px-0 py-0"
+								id="addSegmentButton_"
+							/>
 						)}
 					</div>
 				</div>
-				<div className="flex flex-col gap-6">{!isChapterSegChecked && <> {messageInput} </>}</div>
+				<div className="flex flex-col gap-6">
+					{!isChapterSegmentChecked && (
+						<>
+							{messages.map((input, index) => (
+								<div key={messages.length - index - 1} className="flex flex-col gap-6">
+									<div className="flex justify-between items-center">
+										<div className="text-primaryColor font-semibold font-sans">Segment #{messages.length - index}</div>
+										<Button
+											text="- Remove Segment"
+											id={`removeSegmentButton_${stopTimes.length - index - 1}`}
+											onChangeFunction={() => handleRemoveSegment(messages.length - index - 1)}
+											className="text-primaryColor font-semibold px-0 py-0"
+										/>
+									</div>
+
+									<div className="flex justify-between items-center gap-2">
+										<div className="grow">
+											<TextInputField
+												headerText="Stop Times:"
+												placeholder="Specify pause times for video in format min:sec, e.g. 0:30"
+												value={stopTimes[stopTimes.length - index - 1]}
+												eventName="stopTimes"
+												onChangeFunction={handleStopTimesChange}
+												onChangeFocusFunction={validateStopTimes}
+												id={`stopTimeTextField_${stopTimes.length - index - 1}`}
+												index={stopTimes.length - index - 1}
+											/>
+										</div>
+										<div className="pt-6">
+											<Button
+												text="Get Timestamp"
+												id={`getTimestampButton_${stopTimes.length - index - 1}`}
+												onChangeFunction={(e) => handleGetTimestamp(stopTimes.length - index - 1, e)}
+												className="text-white bg-primaryColor hover:bg-lightBlue px-3"
+											/>
+										</div>
+									</div>
+
+									<TextAreaField
+										headerText="Confirmation Message:"
+										value={messages[messages.length - index - 1]}
+										onChangeFunction={handleMessagesChange}
+										index={messages.length - index - 1}
+										id={`confirmationTextField_${messages.length - index - 1}_`}
+									/>
+								</div>
+							))}
+						</>
+					)}
+				</div>
 			</div>
 		</div>
 	);
 }
 
 MessageInputSection.propTypes = {
-	onAddBtnClick: PropTypes.func.isRequired,
-	isChapterSegAvailable: PropTypes.bool.isRequired,
-	isChapterSegChecked: PropTypes.bool.isRequired,
+	handleAddSegment: PropTypes.func.isRequired,
+	isChapterSegmentAvailable: PropTypes.bool.isRequired,
+	isChapterSegmentChecked: PropTypes.bool.isRequired,
 	messages: PropTypes.arrayOf(PropTypes.string).isRequired,
-	stopTimes: PropTypes.arrayOf(PropTypes.number).isRequired,
-	handleChange: PropTypes.func.isRequired,
-	remove: PropTypes.func.isRequired,
-	handleClickTime: PropTypes.func.isRequired,
+	stopTimes: PropTypes.arrayOf(PropTypes.string).isRequired,
+	handleStopTimesChange: PropTypes.func.isRequired,
+	validateStopTimes: PropTypes.func.isRequired,
+	handleMessagesChange: PropTypes.func.isRequired,
+	handleRemoveSegment: PropTypes.func.isRequired,
+	handleGetTimestamp: PropTypes.func.isRequired,
 	handleChaperCheckboxChange: PropTypes.func.isRequired,
-	userInputStopTimes: PropTypes.arrayOf(PropTypes.string).isRequired,
-	setUserInputStopTimes: PropTypes.func.isRequired,
+};
+
+export const validateMessageInputSection = (messages, setPopup, stopTimes, playerRef) => {
+	// Checks if a string is empty or contains only whitespace
+	const isEmptyOrSpaces = (str) => {
+		if (typeof str !== 'string') return true;
+		return !str || str.trim() === '';
+	};
+
+	// Check if any confirmation message is empty or only contains whitespace
+	const hasEmptyMessage = messages.some((msg) => isEmptyOrSpaces(msg));
+
+	if (hasEmptyMessage) {
+		setPopup({
+			text: 'Please ensure all confirmation messages are filled out.',
+			title: 'Oops...',
+			visible: true,
+			icon: 'error',
+		});
+		return false;
+	}
+
+	for (let i = 0; i < messages.length; i += 1) {
+		const textField = document.getElementById(`stopTimeTextField_${i}`);
+		if (textField) {
+			const regex = /^[0-5]?[0-9]:[0-5][0-9]$/; // validate MM:SS or M:SSformat
+			const temp = regex.test(textField.value);
+
+			if (!temp) {
+				setPopup({
+					text: 'Please ensure all stop times are in a valid MM:SS format.',
+					visible: true,
+					title: 'Oops...',
+					icon: 'error',
+				});
+				return false;
+			}
+
+			// check that the min and seconds inputted are less than the max
+			if (stopTimes[i] > playerRef.current.getDuration()) {
+				setPopup({
+					text: 'Please ensure all stop times are below the video length.',
+					title: 'Oops...',
+					visible: true,
+					icon: 'error',
+				});
+				return false;
+			}
+		}
+	}
+	return true;
 };

@@ -1,9 +1,23 @@
+import QuizLayout from '../Layouts/Main/quiz';
+
+export default function Quiz() {
+
+	return <QuizLayout />;
+
+}
+
+
+
+
+
+// Old Code
+
+/*
 import React, { useEffect, useState } from 'react';
 import { Box, Radio, FormControlLabel, Button, Typography, Grid } from '@mui/material';
 import Results from '../Layouts/Main/quiz/results/index';
 import quizData from '../Layouts/Main/quiz/quizData/index';
 
-function Quiz() {
 	const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
 	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 	const [scores, setScores] = useState(Array(quizData.length).fill(0));
@@ -92,6 +106,4 @@ function Quiz() {
 			)}
 		</Box>
 	);
-}
-
-export default Quiz;
+	*/

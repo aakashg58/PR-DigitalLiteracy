@@ -7,6 +7,10 @@ import components from './components';
 import Layout from './Layouts/layout';
 import Home from './pages/Home';
 
+import QuizLayout from './Layouts/Main/quiz/index';
+import DesktopQuiz from './Layouts/Main/quiz/quizPlatform/DesktopQuiz';
+import MobileQuiz from './Layouts/Main/quiz/quizPlatform/MobileQuiz';
+
 ReactGA.initialize('your GA measurement id');
 
 // Single Page Applications uses client side navigation and google anyalytics can't depend on fullpage reloads. Uselocation require the context of the router to be rendered to provide the location to the Google Analytics. Also, the useLocation() causes the component to re-render whenever the location changes.
@@ -30,6 +34,9 @@ function App() {
 							const Component = components[pathName];
 							return <Route key={pathName} path={href} element={<Component />} />;
 						})}
+						<Route path="/quiz" element={<QuizLayout />} />
+						<Route path="/quiz/desktop" element={<DesktopQuiz />} />
+						<Route path="/quiz/mobile" element={<MobileQuiz />} />
 						<Route path="*" element={<Home />} />
 					</Routes>
 				</Layout>

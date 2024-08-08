@@ -40,6 +40,7 @@ const ProfileMenu = ({ isMobile }) => {
 						onClick: handleLogout,
 					},
 					{ name: 'Add Videos', href: PATHS.addVideos },
+					{ name: 'Add Quiz Question', href: PATHS.addQuizQuestions },
 					{ name: 'Restore Videos', href: PATHS.restoreVideos },
 					{
 						name: 'Help Manager',

@@ -17,6 +17,7 @@ import HelpManager from './pages/HelpManager';
 import Quiz from './pages/Quiz';
 import Help from './pages/QuestionsPage';
 import QuestionDisplay from './Layouts/Main/FAQ/QuestionDisplay/index';
+import AddQuizQuestions from './pages/AddQuizQuestions';
 
 const components = {
 	home: Home,
@@ -38,6 +39,7 @@ const components = {
 	restoreVideos: RestoreVideos,
 	updateVideo: UpdateVideo,
 	helpManager: HelpManager,
+	addQuizQuestions: AddQuizQuestions,
 };
 
 export default components;

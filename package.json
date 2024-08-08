@@ -28,9 +28,11 @@
 		"react-scripts": "5.0.1",
 		"react-scroll": "^1.9.0",
 		"react-tag-input-component": "^2.0.2",
+		"react-toastify": "^10.0.5",
 		"react-youtube": "^10.1.0",
 		"sweetalert2": "^11.7.32",
-		"tailwindcss": "^3.3.3"
+		"tailwindcss": "^3.3.3",
+		"uuid": "^10.0.0"
 	},
 	"scripts": {
 		"dev": "react-scripts start",
