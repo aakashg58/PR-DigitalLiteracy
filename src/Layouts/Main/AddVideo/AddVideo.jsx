@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { doc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { addVideoData, updateData } from '../../../firebase/firebaseReadWrite';
-import './styles.css';
 import Popup from '../../../components/Popups/Popups';
 import Button from '../../../components/Buttons/Button';
 
