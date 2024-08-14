@@ -66,7 +66,7 @@ export const fetchVideosFromFirebase = () => {
 	return videos;
 };
 
-export const fetchVideoFromFirebase = (docID) => {
+export const fetchVideoFromFirebase = (docRef, docID) => {
 	const [video, setVideo] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -74,7 +74,6 @@ export const fetchVideoFromFirebase = (docID) => {
 	useEffect(() => {
 		const fetchVideo = async () => {
 			try {
-				const docRef = doc(db, videoCollectionName, docID);
 				const unsubscribe = onSnapshot(docRef, (docSnap) => {
 					if (docSnap.exists()) {
 						setVideo(docSnap.data());

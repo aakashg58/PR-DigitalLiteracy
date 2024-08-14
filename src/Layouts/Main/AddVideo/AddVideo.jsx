@@ -12,7 +12,7 @@ import VideoInputSection, { validateVideoInputSection } from './Layouts/VideoInp
 import VideoSection from './Layouts/VideoSection';
 import { convertSecondsToTimestamp, convertTimestampToSeconds } from './util/timeStampConversion';
 
-function AddVideo({ editVideoData }) {
+function AddVideo({ editVideoData, editType }) {
 	// User Input Values
 	const [url, setUrl] = useState(editVideoData?.url || '');
 	const [tags, setTags] = useState(editVideoData?.tags || []);
@@ -231,9 +231,14 @@ function AddVideo({ editVideoData }) {
 				videoDataPayload.stopTimes = stopTimes.map((stopTime) => convertTimestampToSeconds(stopTime));
 				videoDataPayload.messages = messages;
 
+				let docRef;
 				if (editVideoData) {
 					// only add key when updating the video
-					const docRef = doc(db, 'youtube-videos', editVideoData.key);
+					if (editType === 'archive') {
+						docRef = doc(db, 'youtube-deleted-history', editVideoData.key);
+					} else {
+						docRef = doc(db, 'youtube-videos', editVideoData.key);
+					}
 
 					await updateData(docRef, videoDataPayload);
 				} else {
@@ -293,7 +298,11 @@ function AddVideo({ editVideoData }) {
 
 				<div className="flex">
 					{editVideoData ? (
-						<Button onChangeFunction={handleSubmit} text="Update" id="addVideoUpdateButton" />
+						<Button
+							onChangeFunction={handleSubmit}
+							text={editType === 'archive' ? 'Update Archive' : 'Update'}
+							id="addVideoUpdateButton"
+						/>
 					) : (
 						<Button onChangeFunction={handleSubmit} text="Submit" id="addVideoSubmitButton" />
 					)}
@@ -319,8 +328,10 @@ AddVideo.propTypes = {
 		stopTimes: PropTypes.arrayOf(PropTypes.number),
 		key: PropTypes.string,
 	}),
+	editType: PropTypes.oneOf(['update', 'archive']),
 };
 
 AddVideo.defaultProps = {
 	editVideoData: null,
+	editType: null,
 };

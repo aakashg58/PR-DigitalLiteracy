@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	fetchArchivedVideosFromFirebase,
 	restoreVideo,
 	fetchArchivedTopicsAndSubtopics,
 } from '../../../firebase/firebaseVideoArchive';
 import SubtopicExpandedBox from './SubtopicExpandedBox';
+import PATHS from '../../../paths';
 
 function RestoreVideo() {
 	const videoValue = fetchArchivedVideosFromFirebase();
 	const topicsAndSubtopics = fetchArchivedTopicsAndSubtopics();
 	const [expandedTopics, setExpandedTopics] = useState([]);
+	const navigate = useNavigate();
 
 	const handleRestoreVideo = async (videoKey) => {
 		const success = await restoreVideo(videoKey);
@@ -33,6 +36,10 @@ function RestoreVideo() {
 		setExpandedTopics((prevTopics) =>
 			prevTopics.includes(topic) ? prevTopics.filter((t) => t !== topic) : [...prevTopics, topic],
 		);
+	};
+
+	const handleEditVideo = (videoId) => {
+		navigate(PATHS.updateVideo.replace(':videoId', videoId).replace(':editType', 'archive'));
 	};
 
 	if (videoValue && topicsAndSubtopics) {
@@ -62,7 +69,14 @@ function RestoreVideo() {
 									<td className="px-4 py-2">{video.title}</td>
 									<td className="px-4 py-2">{video.category}</td>
 									<td className="px-4 py-2">{video.subtopic}</td>
-									<td className="px-4 py-2">
+									<td className="flex gap-2 px-4 py-2">
+										<button
+											type="button"
+											className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm"
+											onClick={() => handleEditVideo(video.key)}
+										>
+											Edit Video
+										</button>
 										<button
 											type="button"
 											className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-sm"
