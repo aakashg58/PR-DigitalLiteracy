@@ -40,6 +40,10 @@ function AddVideo({ editVideoData, editType }) {
 	// Popup Message
 	const [popup, setPopup] = useState(null);
 
+	// Title
+	const [title, setTitle] = useState('');
+	const [channelTitle, setChannelTitle] = useState('');
+
 	const resetData = () => {
 		setUrl('');
 		setTags([]);
@@ -50,6 +54,8 @@ function AddVideo({ editVideoData, editType }) {
 		setMessage(['']);
 		setIsChapterSegmentChecked(false);
 		setIsChapterSegmentAvailable(false);
+		setTitle('');
+		setChannelTitle('');
 	};
 
 	const handleAddSegment = () => {
@@ -159,6 +165,9 @@ function AddVideo({ editVideoData, editType }) {
 				const data = await response.json();
 				const video = data.items[0];
 
+				setTitle(video.snippet.title);
+				setChannelTitle(video.snippet.channelTitle);
+
 				const desc = video.snippet.description;
 				const lines = desc.split('\n');
 				const filteredLines = lines.filter((line) => /^\s*\d+:\d+/.test(line));
@@ -204,6 +213,8 @@ function AddVideo({ editVideoData, editType }) {
 			operating_system: operatingSystem,
 			category,
 			subtopic,
+			title,
+			channelTitle,
 		};
 
 		try {
