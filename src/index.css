@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
 	margin: 0;
 	font-family: 'Inria Sans', sans-serif;
@@ -12,4 +13,27 @@ body {
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@layer components{
+    .card{
+        @apply flex items-center justify-center px-20 py-10;
+		margin:0 auto;
+        width: 75%;
+        background-color: #ECF4FA;
+        border-radius: 20px;
+        border: 0.7px solid #f1f1f1f1;
+        box-shadow: 0 4px 10px -1px rgba(0,0,0,0.1), 0 2px 6px, -2px rgba(0,0,0,0.2);
+    }
+
+	.helpcard{
+        @apply flex items-start justify-start px-10 py-5;
+		margin:0 auto;
+        width: 35%;
+        background-color: #ECF4FA;
+        border-radius: 20px;
+        border: 0.7px solid #f1f1f1f1;
+        box-shadow: 0 4px 10px -1px rgba(0,0,0,0.1), 0 2px 6px, -2px rgba(0,0,0,0.2);
+    }
+
 }
