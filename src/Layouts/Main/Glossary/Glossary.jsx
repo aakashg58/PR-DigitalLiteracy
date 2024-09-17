@@ -1,0 +1,250 @@
+import React, { useRef } from 'react';
+
+const terms = [
+	{
+		word: 'PDF',
+		definition: "PDF (Portable Document Format): A file format created by Adobe to present documents, including text and images, in a way that's independent of software, hardware, and operating systems. PDFs are often used for sharing documents as they preserve formatting."
+	},
+	{
+		word: 'URL',
+		definition: "URL (Uniform Resource Locator): The web address used to locate resources on the internet. For example, https://www.google.com."
+	},
+	{
+		word: 'Domain',
+		definition: "Domain: The part of a web address that identifies a website, like 'google.com' or 'facebook.com.' It’s a unique name that corresponds to an IP address."
+	},
+	{
+		word: 'IP Address',
+		definition: "IP Address (Internet Protocol Address): A unique string of numbers and periods assigned to every device connected to the internet. It acts as the device’s digital address."
+	},
+	{
+		word: 'HTTP',
+		definition: "HTTP (HyperText Transfer Protocol): A protocol used for transmitting web pages over the internet. When you type a URL into your browser, it uses HTTP to fetch the website’s data."
+	},
+	{
+		word: 'HTTPS',
+		definition: "HTTPS (HyperText Transfer Protocol Secure): A more secure version of HTTP that encrypts data between your browser and the website to protect sensitive information."
+	},
+	{
+		word: 'Web App',
+		definition: "Web App (Web Application): A software application that runs in a web browser. Unlike traditional apps that need to be downloaded and installed, web apps are accessed via the internet and work across different devices. Examples include Gmail, Google Docs, and Slack."
+	},
+	{
+		word: 'Browser',
+		definition: "Browser: A software application used to access and view websites. Popular web browsers include Google Chrome, Firefox, Safari, and Microsoft Edge."
+	},
+	{
+		word: 'Wi-Fi',
+		definition: "Wi-Fi (Wireless Fidelity): A wireless networking technology that allows devices like smartphones, computers, and tablets to connect to the internet without the need for physical cables."
+	},
+	{
+		word: 'USB',
+		definition: "USB (Universal Serial Bus): A standard for cables and connectors used for transferring data and power between devices like computers, smartphones, printers, and external storage."
+	},
+	{
+		word: 'VPN',
+		definition: "VPN (Virtual Private Network): A service that creates a secure, encrypted connection over a less secure network, such as the internet, to provide privacy and security."
+	},
+	{
+		word: 'AI',
+		definition: "AI (Artificial Intelligence): The simulation of human intelligence in machines that are programmed to think, learn, and adapt, enabling them to perform tasks that typically require human intelligence."
+	},
+	{
+		word: 'CPU',
+		definition: "CPU (Central Processing Unit): Often referred to as the 'brain' of a computer, the CPU is responsible for carrying out instructions and performing calculations."
+	},
+	{
+		word: 'RAM',
+		definition: "RAM (Random Access Memory): A type of computer memory that is used to store working data and machine code. It is fast and temporary, clearing when the device is turned off."
+	},
+	{
+		word: 'SSD',
+		definition: "SSD (Solid State Drive): A type of storage device that uses flash memory to store data. SSDs are faster and more reliable than traditional hard drives (HDDs)."
+	},
+	{
+		word: 'QR Code',
+		definition: "QR Code (Quick Response Code): A type of barcode that stores information, which can be read using a smartphone camera. It's often used for links, payments, or contact information."
+	},
+	{
+		word: 'IoT',
+		definition: "IoT (Internet of Things): A network of interconnected devices that can communicate with each other and exchange data. Examples include smart thermostats, security systems, and wearable devices."
+	},
+	{
+		word: 'HTML',
+		definition: "HTML (HyperText Markup Language): The standard language used to create and structure content on the web. It is the foundation of all web pages."
+	},
+	{
+		word: 'JPEG',
+		definition: "JPEG (Joint Photographic Experts Group): A commonly used method of compressing digital images, particularly for photographs, to reduce file size."
+	},
+	{
+		word: 'GIF',
+		definition: "GIF (Graphics Interchange Format): A popular image format that supports both static and animated images, often used for memes or short clips."
+	},
+	{
+		word: 'PNG',
+		definition: "PNG (Portable Network Graphics): An image file format that supports lossless data compression, meaning it retains its quality even after compression."
+	},
+	{
+		word: 'SQL',
+		definition: "SQL (Structured Query Language): A language used to communicate with databases and perform tasks such as retrieving, updating, and managing data."
+	},
+	{
+		word: 'API',
+		definition: "API (Application Programming Interface): A set of rules that allows different software applications to communicate with each other, enabling functionality like sharing data between programs."
+	},
+	{
+		word: 'Bluetooth',
+		definition: "Bluetooth: A wireless technology standard for exchanging data over short distances between devices like phones, computers, and headphones."
+	},
+	{
+		word: 'SEO',
+		definition: "SEO (Search Engine Optimization): The process of optimizing web content to improve its visibility in search engine results, like Google."
+	},
+	{
+		word: '2FA',
+		definition: "2FA (Two-Factor Authentication): A security process in which a user provides two different authentication factors to verify their identity. Typically, this involves a password and a code sent to a mobile device. Typically apps like DUO are used to enable 2FA."
+	},
+	{
+		word: 'USB-C',
+		definition: "USB-C: A type of USB connector that is smaller, faster, and reversible. It’s commonly used for charging and data transfer in modern smartphones, tablets, and laptops."
+	},
+	{
+		word: 'NFC',
+		definition: "NFC (Near-Field Communication): A short-range wireless technology that enables devices to communicate when they are close to each other. It's often used for contactless payments."
+	},
+	{
+		word: 'DNS',
+		definition: "DNS (Domain Name System): The system that translates domain names (like www.google.com) into IP addresses, so browsers can load internet resources."
+	},
+	{
+		word: 'LAN',
+		definition: "LAN (Local Area Network): A network that connects computers within a limited area, such as a home, school, or office building."
+	},
+	{
+		word: 'Cloud Storage',
+		definition: "Cloud Storage: Online storage where data is saved on remote servers and can be accessed from any device with internet connectivity. Examples include Google Drive, Dropbox, and iCloud."
+	},
+	{
+		word: 'GPS',
+		definition: "GPS (Global Positioning System): A satellite-based navigation system that provides location and time information anywhere on Earth where there is an unobstructed line of sight to four or more GPS satellites. It’s commonly used for navigation in cars, smartphones, and other devices."
+	},
+	{
+		word: 'App',
+		definition: "App (Application): Short for 'application,' an app is a software program designed to perform specific tasks or functions on devices like smartphones, tablets, or computers. Apps can range from social media platforms and games to productivity tools and utilities."
+	},
+	{
+		word: '4G/5G',
+		definition: "4G/5G: These refer to generations of mobile network technology.\n\n    4G (Fourth Generation): A mobile network technology that provides high-speed internet access and supports things like HD streaming and fast browsing on mobile devices.\n\n    5G (Fifth Generation): The next step in mobile network technology, offering significantly faster internet speeds, lower latency (response time), and the ability to connect many devices simultaneously. It's key for things like smart cities, autonomous vehicles, and enhanced virtual reality experiences."
+	},
+	{
+		word: 'Hotspot',
+		definition: "Hotspot: A physical location where people can access the internet, typically using Wi-Fi, via a device like a smartphone, tablet, or laptop. Hotspots can be public (like at cafes) or personal (via your phone’s cellular network)."
+	},
+	{
+		word: 'Router',
+		definition: "Router: A device that forwards data between different networks, like between your home Wi-Fi and the internet. It directs internet traffic and connects multiple devices to the internet."
+	},
+	{
+		word: 'Bandwidth',
+		definition: "Bandwidth: The maximum amount of data that can be transmitted over an internet connection in a given time, usually measured in Mbps (megabits per second). Higher bandwidth allows for faster data transfer and better performance for activities like streaming."
+	},
+	{
+		word: 'Malware',
+		definition: "Malware (Malicious Software): Any software intentionally designed to cause damage to a computer, server, or network. Types of malware include viruses, worms, and ransomware."
+	},
+	{
+		word: 'Firewall',
+		definition: "Firewall: A security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules, creating a barrier between a trusted internal network and untrusted external networks."
+	},
+	{
+		word: 'Phishing',
+		definition: "Phishing: A form of online fraud where attackers try to trick individuals into providing sensitive information (like passwords or credit card numbers) by pretending to be a trustworthy entity, often via email or fake websites."
+	},
+	{
+		word: 'Cookie',
+		definition: "Cookie: A small piece of data sent by a website and stored on the user's device by their web browser. Cookies help websites remember users' preferences and activities, like keeping them logged in."
+	},
+	{
+		word: 'SaaS',
+		definition: "SaaS (Software as a Service): A software delivery model where applications are hosted in the cloud and made available to users over the internet, usually via a subscription. Examples include Microsoft 365 and Dropbox."
+	}
+];
+
+const sections = [
+	{ id: 'A', label: 'A' },
+	{ id: 'B', label: 'B' },
+	{ id: 'C', label: 'C' },
+	{ id: 'D', label: 'D' },
+	{ id: 'E', label: 'E' },
+	{ id: 'F', label: 'F' },
+	{ id: 'G', label: 'G' },
+	{ id: 'H', label: 'H' },
+	{ id: 'I', label: 'I' },
+	{ id: 'J', label: 'K' },
+	{ id: 'L', label: 'L' },
+	{ id: 'M', label: 'M' },
+	{ id: 'N', label: 'N' },
+	{ id: 'O', label: 'O' },
+	{ id: 'P', label: 'P' },
+	{ id: 'Q', label: 'Q' },
+	{ id: 'R', label: 'R' },
+	{ id: 'S', label: 'S' },
+	{ id: 'T', label: 'T' },
+	{ id: 'U', label: 'U' },
+	{ id: 'V', label: 'V' },
+	{ id: 'W', label: 'W' },
+	{ id: 'X', label: 'X' },
+	{ id: 'Y', label: 'Y' },
+	{ id: 'Z', label: 'Z' },
+];
+
+const Glossary = () => {
+	const sectionRefs = useRef({});
+
+	const scrollToSection = (id) => {
+		sectionRefs.current[id]?.scrollIntoView({ behavior: 'smooth' });
+	};
+
+	return (
+		<div>
+			<h1 style={{ textAlign: 'center' }}>Glossary of Technical Terms</h1>
+			<div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+				{sections.map(({ id, label }) => (
+					<button
+						key={id}
+						onClick={() => scrollToSection(id)}
+						style={{
+							margin: '0 5px',
+							padding: '10px',
+							fontSize: '16px',
+							cursor: 'pointer',
+							backgroundColor: '#007bff',
+							color: 'white',
+							border: 'none',
+							borderRadius: '4px'
+						}}
+					>
+						{label}
+					</button>
+				))}
+			</div>
+			<div>
+				{sections.map(({ id, label }) => (
+					<div key={id} ref={(el) => (sectionRefs.current[id] = el)} style={{ marginBottom: '50px' }}>
+						<h2>{label}</h2>
+						{terms
+							.filter(term => term.word.startsWith(label))
+							.map((term, index) => (
+								<p key={index} style={{ marginBottom: '10px' }}>
+									<strong>{term.word}:</strong> {term.definition}
+								</p>
+							))}
+					</div>
+				))}
+			</div>
+		</div>
+	);
+};
+
+export default Glossary;
