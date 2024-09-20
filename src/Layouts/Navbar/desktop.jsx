@@ -44,7 +44,7 @@ const navItems = [
 		component={Link}
 		to="/glossary"
 		>
-			Glossary
+			Word List
 		</Button>
 	</div>,
 	<Fragment key="profile_menu">

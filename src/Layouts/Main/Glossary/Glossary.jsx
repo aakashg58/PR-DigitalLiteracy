@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import glossary_terms from './glossary-terms.json';
+import glossaryTerms from './glossaryTerms.json';
 
 const sections = [
 	{ id: 'A' },
@@ -50,6 +50,13 @@ const Glossary = () => {
 		}
 	};
 
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
+
 	return (
 		<div>
 			<h1 style={{ textAlign: 'center', marginBottom: '7px' }}>Glossary of Technical Terms</h1>
@@ -76,9 +83,8 @@ const Glossary = () => {
 			</div>
 
 			{sections.map(({ id }) => (
-				<div>
+				<div key={id}>
 					<h1
-						key={id}
 						ref={(el) => (sectionRefs.current[id] = el)}
 						style={{
 							marginLeft: '142px',
@@ -87,10 +93,10 @@ const Glossary = () => {
 						{id}
 					</h1>
 
-					{glossary_terms['terms']
+					{glossaryTerms['terms']
 						.filter((term) => term.word.startsWith(id))
 						.map((term) => (
-							<Card className="flex items-center justify-center" sx={{ minWidth: 275 }}>
+							<Card className="flex items-center justify-center" sx={{ minWidth: 275 }} key={term.word}>
 								<CardContent sx={{ maxWidth: 600 }}>
 									<Typography sx={{ mb: 1.5 }} variant="h5" component="div">
 										<strong>{term.word}</strong>
@@ -103,6 +109,26 @@ const Glossary = () => {
 						))}
 				</div>
 			))}
+
+			<button
+				onClick={scrollToTop}
+				style={{
+					position: 'fixed',
+					bottom: '20px',
+					right: '20px',
+					width: '50px',
+					height: '50px',
+					fontSize: '16px',
+					cursor: 'pointer',
+					backgroundColor: '#007bff',
+					color: 'white',
+					border: 'none',
+					borderRadius: '50%',
+					boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+				}}
+			>
+				↑
+			</button>
 		</div>
 	);
 };
