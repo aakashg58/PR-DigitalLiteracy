@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import QuizLayout from './Layouts/Main/quiz/index';
 import DesktopQuiz from './Layouts/Main/quiz/quizPlatform/DesktopQuiz';
 import MobileQuiz from './Layouts/Main/quiz/quizPlatform/MobileQuiz';
+import Glossary from './Layouts/Main/Glossary/Glossary';
 
 ReactGA.initialize(process.env.REACT_APP_MEASUREMENT_ID);
 
@@ -37,6 +38,7 @@ function App() {
 						<Route path="/quiz" element={<QuizLayout />} />
 						<Route path="/quiz/desktop" element={<DesktopQuiz />} />
 						<Route path="/quiz/mobile" element={<MobileQuiz />} />
+						<Route path="/glossary" element={<Glossary />} />
 						<Route path="*" element={<Home />} />
 					</Routes>
 				</Layout>
