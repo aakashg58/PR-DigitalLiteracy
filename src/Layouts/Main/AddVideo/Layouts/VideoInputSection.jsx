@@ -23,6 +23,7 @@ export default function VideoInputSection({
 
 	// Fetch subtopics corresponding to the category when the user selects a category
 	useEffect(() => {
+		console.log('subtopics:', subtopics);
 		if (category && subtopics) {
 			const relevantSubtopics = subtopics.find((item) => item[0]?.toLowerCase() === category.toLowerCase())?.[1] ?? [];
 

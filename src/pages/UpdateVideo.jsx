@@ -4,7 +4,7 @@ import { useAuth } from '../firebase/AuthContext';
 import UpdateVideoLayout from '../Layouts/Main/UpdateVideo';
 
 function UpdateVideo() {
-	const { videoId } = useParams();
+	const { videoId, editType } = useParams();
 
 	const { currentUser } = useAuth();
 	const navigate = useNavigate();
@@ -15,7 +15,7 @@ function UpdateVideo() {
 		}
 	}, [currentUser]);
 
-	return <div>{UpdateVideoLayout(videoId)}</div>;
+	return <div>{UpdateVideoLayout(videoId, editType)}</div>;
 }
 
 export default UpdateVideo;

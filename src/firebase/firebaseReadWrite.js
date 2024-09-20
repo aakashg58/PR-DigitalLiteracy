@@ -1,20 +1,10 @@
-import {
-	updateDoc,
-	onSnapshot,
-	setDoc,
-	collection,
-	addDoc,
-	getDocs,
-	where,
-	query,
-	doc,
-	getDoc,
-} from 'firebase/firestore';
+import { updateDoc, onSnapshot, setDoc, collection, addDoc, getDocs, doc, getDoc } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 
 import { db } from './firebase';
 
 const videoCollectionName = 'youtube-videos';
+const topicCollectionName = 'youtube-topics';
 const transcriptCollectionName = 'youtube-transcripts';
 
 export const addData = async (docRef, docData) => {
@@ -66,7 +56,7 @@ export const fetchVideosFromFirebase = () => {
 	return videos;
 };
 
-export const fetchVideoFromFirebase = (docID) => {
+export const fetchVideoFromFirebase = (docRef, docID) => {
 	const [video, setVideo] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -74,7 +64,6 @@ export const fetchVideoFromFirebase = (docID) => {
 	useEffect(() => {
 		const fetchVideo = async () => {
 			try {
-				const docRef = doc(db, videoCollectionName, docID);
 				const unsubscribe = onSnapshot(docRef, (docSnap) => {
 					if (docSnap.exists()) {
 						setVideo(docSnap.data());
@@ -102,39 +91,32 @@ export const fetchVideoFromFirebase = (docID) => {
 // Get unique topics
 export const getTopics = async () => {
 	try {
-		const videosRef = collection(db, videoCollectionName);
-		const querySnapshot = await getDocs(videosRef);
+		const topicsCollection = collection(db, topicCollectionName);
+		const querySnapshot = await getDocs(topicsCollection);
 
-		const topicsSet = new Set();
+		const topicIds = [];
 		querySnapshot.forEach((document) => {
-			const videoData = document.data();
-			if (videoData.category) {
-				topicsSet.add(videoData.category);
-			}
+			topicIds.push(document.id);
 		});
 
-		return Array.from(topicsSet); // Convert Set to Array
+		return topicIds;
 	} catch (error) {
 		console.error('Error fetching topics: ', error);
 		return [];
 	}
 };
 
-export const getSubtopics = async (category) => {
+export const getSubtopics = async (categoryId) => {
 	try {
-		const videosRef = collection(db, videoCollectionName);
-		const queryConstraint = where('category', '==', category);
-		const querySnapshot = await getDocs(query(videosRef, queryConstraint));
+		const documentRef = doc(db, topicCollectionName, categoryId);
+		const documentSnapshot = await getDoc(documentRef); // Use getDoc
 
-		const subtopicsSet = new Set();
-		querySnapshot.forEach((document) => {
-			const videoData = document.data();
-			if (videoData.subtopic) {
-				subtopicsSet.add(videoData.subtopic);
-			}
-		});
+		if (documentSnapshot.exists()) {
+			const subtopicsData = documentSnapshot.data();
+			return subtopicsData.subtopics || [];
+		}
 
-		return Array.from(subtopicsSet);
+		return [];
 	} catch (error) {
 		console.error('Error fetching subtopics: ', error);
 		return [];
@@ -145,10 +127,11 @@ export const fetchTopicsAndSubtopics = () => {
 	const [subtopicGroups, setSubtopicGroups] = useState(null);
 
 	useEffect(() => {
-		const unsubscribe = onSnapshot(collection(db, videoCollectionName), async (snapshot) => {
+		const unsubscribe = onSnapshot(collection(db, topicCollectionName), async (snapshot) => {
 			const topics = await getTopics();
 			const allSubtopics = {};
 
+			console.log('topics:', topics);
 			// Fetch subtopics for each topic in parallel
 			const subtopicPromises = topics.map(async (category) => {
 				const subtopics = await getSubtopics(category);
