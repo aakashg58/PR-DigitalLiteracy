@@ -34,6 +34,8 @@ const sections = [
 	{ id: 'Z' },
 ];
 
+const sectionsWithTerms = sections.filter(({ id }) => glossaryTerms['terms'].some((term) => term.word.startsWith(id)));
+
 const Glossary = () => {
 	const sectionRefs = useRef({});
 
@@ -59,7 +61,9 @@ const Glossary = () => {
 
 	return (
 		<div>
-			<h1 style={{ textAlign: 'center', marginBottom: '7px' }}>Glossary of Technical Terms</h1>
+			<h1 style={{ textAlign: 'center', marginBottom: '7px', fontWeight: 'bold', fontSize: '36px' }}>
+				Glossary of Technical Terms
+			</h1>
 			<div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
 				{sections.map(({ id }) => (
 					<button
@@ -82,7 +86,7 @@ const Glossary = () => {
 				))}
 			</div>
 
-			{sections.map(({ id }) => (
+			{sectionsWithTerms.map(({ id }) => (
 				<div key={id}>
 					<h1
 						ref={(el) => (sectionRefs.current[id] = el)}
@@ -118,16 +122,21 @@ const Glossary = () => {
 					right: '20px',
 					width: '50px',
 					height: '50px',
-					fontSize: '16px',
+					fontSize: '10px',
 					cursor: 'pointer',
 					backgroundColor: '#007bff',
 					color: 'white',
 					border: 'none',
 					borderRadius: '50%',
 					boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					justifyContent: 'center',
 				}}
 			>
-				↑
+				<span style={{ fontSize: '18px', marginTop: '7px' }}>↑</span>
+				<span style={{ fontSize: '8px', marginBottom: '23px' }}>Scroll to Top</span>
 			</button>
 		</div>
 	);

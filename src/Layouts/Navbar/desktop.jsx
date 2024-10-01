@@ -37,14 +37,8 @@ const navItems = [
 		>
 			Find help Nearby
 		</Button>
-		<Button
-		key="glossary_button"
-		variant="outlined"
-		color="primary"
-		component={Link}
-		to="/glossary"
-		>
-			Word List
+		<Button key="glossary_button" variant="outlined" color="primary" component={Link} to="/glossary">
+			Technology Words
 		</Button>
 	</div>,
 	<Fragment key="profile_menu">
