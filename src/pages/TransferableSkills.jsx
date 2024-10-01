@@ -161,17 +161,7 @@ function TransferableSkills() {
 						>
 							Record Audio
 						</button>
-
-						{recordOption === 'video' ? (
-							<>
-								<video ref={videoRef} />
-								<VideoRecorder />
-							</>
-						) : recordOption === 'audio' ? (
-							<AudioRecorder />
-						) : (
-							<div></div>
-						)}
+						{recordOption === 'video' ? <VideoRecorder /> : recordOption === 'audio' ? <AudioRecorder /> : <div></div>}
 					</div>
 				</div>
 			</div>
