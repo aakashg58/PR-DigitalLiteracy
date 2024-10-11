@@ -1,56 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-const [second, setSecond] = useState('00');
-const [minute, setMinute] = useState('00');
-const [isActive, setIsActive] = useState(false);
-const [counter, setCounter] = useState(0);
+export default function Stopwatch(isrun) {
+	const [currentTime, setCurrentTime] = useState(0);
+	const [isRunning, setIsRunning] = useState(false);
 
-const Timer = () => {
-	function stopTimer() {
-		setIsActive(false);
-		setCounter(0);
-		setSecond('00');
-		setMinute('00');
-	}
+	const intervalID = useRef(null);
 
 	useEffect(() => {
-		let intervalId;
-
-		if (isActive) {
-			intervalId = setInterval(() => {
-				const secondCounter = counter % 60;
-				const minuteCounter = Math.floor(counter / 60);
-
-				const computedSecond = String(secondCounter).length === 1 ? `0${secondCounter}` : secondCounter;
-				const computedMinute = String(minuteCounter).length === 1 ? `0${minuteCounter}` : minuteCounter;
-
-				setSecond(computedSecond);
-				setMinute(computedMinute);
-
-				setCounter((counter) => counter + 1);
-			}, 1000);
+		if (!isRunning) {
+			intervalID.current = setInterval(() => {
+				setCurrentTime((prevTime) => {
+					return prevTime + 10;
+				});
+			}, 10);
 		}
-
-		return () => clearInterval(intervalId);
-	}, [isActive, counter]);
+		setIsRunning(true);
+	}, [currentTime]);
 
 	return (
-		<div className="container">
-			<div className="time">
-				<span className="minute">{minute}</span>
-				<span>:</span>
-				<span className="second">{second}</span>
-			</div>
-			<div className="buttons">
-				<button onClick={() => setIsActive(!isActive)} className="start">
-					{isActive ? 'Pause' : 'Start'}
-				</button>
-				<button onClick={() => null} className="reset">
-					Reset
-				</button>
-			</div>
-		</div>
+		<>
+			<h2>{(currentTime / 1000).toFixed(2)}</h2>
+		</>
 	);
-};
-
-export default Timer;
+}

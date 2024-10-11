@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import AudioRecorder from '../components/Audio/AudioRecorder';
 import VideoRecorder from '../components/RecordVideo/VideoRecorder';
 
 function TransferableSkills() {
-	const videoRef = useRef(null);
 	let [recordOption, setRecordOption] = useState();
 
 	const toggleRecordOption = (type) => {
@@ -11,25 +10,6 @@ function TransferableSkills() {
 			setRecordOption(type);
 		};
 	};
-
-	const getVideo = () => {
-		navigator.mediaDevices
-			.getUserMedia({
-				video: { width: 1920, height: 1080 },
-			})
-			.then((videostream) => {
-				const video = videoRef.current;
-				video.srcObject = videostream;
-				video.play();
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-	};
-
-	useEffect(() => {
-		getVideo();
-	}, [videoRef]);
 
 	return (
 		<div className="flex-col">
