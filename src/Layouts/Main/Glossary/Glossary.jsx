@@ -10,28 +10,21 @@ const sections = [
 	{ id: 'B' },
 	{ id: 'C' },
 	{ id: 'D' },
-	{ id: 'E' },
 	{ id: 'F' },
 	{ id: 'G' },
 	{ id: 'H' },
 	{ id: 'I' },
 	{ id: 'J' },
-	{ id: 'K' },
 	{ id: 'L' },
 	{ id: 'M' },
 	{ id: 'N' },
-	{ id: 'O' },
 	{ id: 'P' },
 	{ id: 'Q' },
 	{ id: 'R' },
 	{ id: 'S' },
-	{ id: 'T' },
 	{ id: 'U' },
 	{ id: 'V' },
 	{ id: 'W' },
-	{ id: 'X' },
-	{ id: 'Y' },
-	{ id: 'Z' },
 ];
 
 const sectionsWithTerms = sections.filter(({ id }) => glossaryTerms['terms'].some((term) => term.word.startsWith(id)));
@@ -61,7 +54,7 @@ const Glossary = () => {
 
 	return (
 		<div>
-			<h1 style={{ textAlign: 'center', marginBottom: '7px', fontWeight: 'bold', fontSize: '36px' }}>
+			<h1 style={{ textAlign: 'center', marginBottom: '7px', fontWeight: 'bold', fontSize: '40px' }}>
 				Glossary of Technical Terms
 			</h1>
 			<div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
