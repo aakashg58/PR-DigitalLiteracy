@@ -25,7 +25,6 @@ const navItems = [
 		Take Quiz
 		</Button>
 		*/}
-
 		<Button
 			variant="outlined"
 			color="primary"
@@ -39,6 +38,9 @@ const navItems = [
 		</Button>
 		<Button key="glossary_button" variant="outlined" color="primary" component={Link} to="/glossary">
 			Technology Words
+		</Button>
+		<Button key="faq_button" variant="outlined" color="primary" component={Link} to="/faq">
+			FAQ
 		</Button>
 	</div>,
 	<Fragment key="profile_menu">
