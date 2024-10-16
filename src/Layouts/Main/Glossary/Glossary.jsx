@@ -10,29 +10,24 @@ const sections = [
 	{ id: 'B' },
 	{ id: 'C' },
 	{ id: 'D' },
-	{ id: 'E' },
 	{ id: 'F' },
 	{ id: 'G' },
 	{ id: 'H' },
 	{ id: 'I' },
 	{ id: 'J' },
-	{ id: 'K' },
 	{ id: 'L' },
 	{ id: 'M' },
 	{ id: 'N' },
-	{ id: 'O' },
 	{ id: 'P' },
 	{ id: 'Q' },
 	{ id: 'R' },
 	{ id: 'S' },
-	{ id: 'T' },
 	{ id: 'U' },
 	{ id: 'V' },
 	{ id: 'W' },
-	{ id: 'X' },
-	{ id: 'Y' },
-	{ id: 'Z' },
 ];
+
+const sectionsWithTerms = sections.filter(({ id }) => glossaryTerms['terms'].some((term) => term.word.startsWith(id)));
 
 const Glossary = () => {
 	const sectionRefs = useRef({});
@@ -59,7 +54,9 @@ const Glossary = () => {
 
 	return (
 		<div>
-			<h1 style={{ textAlign: 'center', marginBottom: '7px' }}>Glossary of Technical Terms</h1>
+			<h1 style={{ textAlign: 'center', marginBottom: '7px', fontWeight: 'bold', fontSize: '40px' }}>
+				Glossary of Technical Terms
+			</h1>
 			<div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
 				{sections.map(({ id }) => (
 					<button
@@ -82,7 +79,7 @@ const Glossary = () => {
 				))}
 			</div>
 
-			{sections.map(({ id }) => (
+			{sectionsWithTerms.map(({ id }) => (
 				<div key={id}>
 					<h1
 						ref={(el) => (sectionRefs.current[id] = el)}
@@ -118,16 +115,21 @@ const Glossary = () => {
 					right: '20px',
 					width: '50px',
 					height: '50px',
-					fontSize: '16px',
+					fontSize: '10px',
 					cursor: 'pointer',
 					backgroundColor: '#007bff',
 					color: 'white',
 					border: 'none',
 					borderRadius: '50%',
 					boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					justifyContent: 'center',
 				}}
 			>
-				↑
+				<span style={{ fontSize: '18px', marginTop: '7px' }}>↑</span>
+				<span style={{ fontSize: '8px', marginBottom: '23px' }}>Scroll to Top</span>
 			</button>
 		</div>
 	);

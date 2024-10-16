@@ -18,6 +18,8 @@ const PATHS = {
 	restoreVideos: '/restoreVideos',
 	updateVideo: '/updateVideo/:videoId/:editType',
 	helpManager: '/helpManager',
+	faq: '/faq',
+	newComputer: '/newComputer',
 	addQuizQuestions: '/addQuizQuestions',
 };
 
