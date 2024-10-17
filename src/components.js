@@ -20,6 +20,26 @@ import QuestionDisplay from './Layouts/Main/FAQ/QuestionDisplay/index';
 import AddQuizQuestions from './pages/AddQuizQuestions';
 import FAQ from './pages/FAQ';
 import NewComputer from './pages/NewComputer';
+import ComputerType from './pages/ComputerType';
+import PhoneIcons from './pages/PhoneIcons';
+import EmailOnPhone from './pages/EmailOnPhone';
+import MailAppDifference from './pages/MailAppDifference';
+import SchoolEmailPersonal from './pages/SchoolEmailPersonal';
+import ComputerErrors from './pages/ComputerErrors';
+import RightClick from './pages/RightClick';
+import DragAndDrop from './pages/DragAndDrop';
+import Trackpad from './pages/Trackpad';
+import BrowserSearchEngine from './pages/BrowserSearchEngine';
+import BrowserVsApp from './pages/BrowserVsApp';
+import Canvas from './pages/Canvas';
+import SearchWeb from './pages/SearchWeb';
+import CustomizeSettingsApp from './pages/CustomizeSettingsApp';
+import SavedFile from './pages/SavedFile';
+import CacheAndCookies from './pages/CacheAndCookies';
+import GoBackPage from './pages/GoBackPage';
+import StudentEmail from './pages/StudentEmail';
+import RightEmailAccount from './pages/RightEmailAccount';
+import ProfessorContact from './pages/ProfessorContact';
 
 const components = {
 	home: Home,
@@ -44,6 +64,26 @@ const components = {
 	addQuizQuestions: AddQuizQuestions,
 	faq: FAQ,
 	newComputer: NewComputer,
+	computerType: ComputerType,
+	phoneIcons: PhoneIcons,
+	emailOnPhone: EmailOnPhone,
+	mailAppDifference: MailAppDifference,
+	schoolEmailPersonal: SchoolEmailPersonal,
+	computerErrors: ComputerErrors,
+	rightClick: RightClick,
+	dragAndDrop: DragAndDrop,
+	trackpad: Trackpad,
+	browserSearchEngine: BrowserSearchEngine,
+	browserVsApp: BrowserVsApp,
+	canvas: Canvas,
+	searchWeb: SearchWeb,
+	customizeSettingsApp: CustomizeSettingsApp,
+	savedFile: SavedFile,
+	cacheAndCookies: CacheAndCookies,
+	goBackPage: GoBackPage,
+	studentEmail: StudentEmail,
+	rightEmailAccount: RightEmailAccount,
+	professorContact: ProfessorContact,
 };
 
 export default components;

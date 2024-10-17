@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import '../Layouts/Main/FAQ/NewComputer.css';
+import '../Layouts/Main/FAQ/LongAnswers.css';
 
 const NewComputer = () => (
 	<div className="container">
 		<h1>What to do with your new computer</h1>
-		<p>Congratulations on your new computer! Here's what you can do to get started:</p>
+		<p>Congratulations on your new computer! Here&apos;s what you can do to get started:</p>
 		<p>
 			Turn It On: Press the power button to switch on your computer. The power button is typically on the top of your
 			keyboard but in some cases it may be on the side of your laptop.
@@ -29,6 +29,7 @@ const NewComputer = () => (
 			Learn Basic Navigation: Practice opening, closing, and switching between applications. Learn useful keyboard
 			shortcuts like Ctrl+C (copy) and Ctrl+V (paste).
 		</p>
+
 	</div>
 );
 
