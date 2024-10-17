@@ -128,14 +128,14 @@ function TransferableSkills() {
 					<h1 className="text-4xl font-bold">Record Your Story</h1>
 					<div className="flex justify-center items-center gap-3">
 						<button
-							className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl"
+							className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl  hover:bg-lightBlue"
 							type="button"
 							onClick={toggleRecordOption('video')}
 						>
 							Record Video
 						</button>
 						<button
-							className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl"
+							className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl  hover:bg-lightBlue"
 							type="button"
 							onClick={toggleRecordOption('audio')}
 						>

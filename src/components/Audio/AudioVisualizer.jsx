@@ -27,7 +27,7 @@ const AudioVisualizer = ({ stream }) => {
 
 			analyser.getByteFrequencyData(dataArray);
 
-			canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+			canvasCtx.fillStyle = 'rgb(211, 211, 211)';
 			canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
 			const barWidth = (WIDTH / bufferLength) * 2.5;
@@ -37,7 +37,7 @@ const AudioVisualizer = ({ stream }) => {
 			for (let i = 0; i < bufferLength; i++) {
 				barHeight = dataArray[i] / 2;
 
-				canvasCtx.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
+				canvasCtx.fillStyle = `rgb(50, 50, ${barHeight + 100})`;
 				canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight);
 
 				x += barWidth + 1;

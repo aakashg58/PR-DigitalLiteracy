@@ -10,16 +10,24 @@ export default function Stopwatch(isrun) {
 		if (!isRunning) {
 			intervalID.current = setInterval(() => {
 				setCurrentTime((prevTime) => {
-					return prevTime + 10;
+					return prevTime + 5;
 				});
 			}, 10);
 		}
 		setIsRunning(true);
 	}, [currentTime]);
 
+	const sec = Math.floor(currentTime / 1000);
+	const min = Math.floor(sec / 60);
+	const seconds = (sec % 60).toString().padStart(2, '0');
+	const minutes = (min % 60).toString().padStart(2, '0');
+
 	return (
 		<>
-			<h2>{(currentTime / 1000).toFixed(2)}</h2>
+			<div className="text-xl mt-5 p-2 bg-gray-100 rounded inline-block">
+				<p className="text-xl">Time Passed: </p>
+				<span>{minutes}</span>:<span>{seconds}</span>
+			</div>
 		</>
 	);
 }
