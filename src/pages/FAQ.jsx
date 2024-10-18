@@ -13,6 +13,10 @@ export default function FAQ() {
 	const [filteredFAQItems, setFilteredFAQItems] = useState(faqItems); // Filtered FAQ results
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
+	});
+
+	useEffect(() => {
 		// Initialize Elasticlunr index
 		const newIndex = elasticlunr();
 		newIndex.addField('question'); // Add question field to index
