@@ -19,7 +19,7 @@ import Help from './pages/QuestionsPage';
 import QuestionDisplay from './Layouts/Main/FAQ/QuestionDisplay/index';
 import AddQuizQuestions from './pages/AddQuizQuestions';
 import FAQ from './pages/FAQ';
-import NewComputer from './pages/NewComputer';
+import InfoPage from './pages/InfoPage';
 
 const components = {
 	home: Home,
@@ -43,7 +43,7 @@ const components = {
 	helpManager: HelpManager,
 	addQuizQuestions: AddQuizQuestions,
 	faq: FAQ,
-	newComputer: NewComputer,
+	infoPage: InfoPage,
 };
 
 export default components;

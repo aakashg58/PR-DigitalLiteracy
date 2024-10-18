@@ -106,17 +106,6 @@ header .ask-question {
 	font-size: 16px;
 }
 
-.read-more {
-	color: #007bff;
-	background: none;
-	border: none;
-	cursor: pointer;
-	font-size: 14px;
-	text-decoration: underline;
-	margin-left: 5px;
-	padding: 0;
-}
-
 .video-container {
 	display: flex;
 	justify-content: space-between;
