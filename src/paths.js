@@ -19,7 +19,7 @@ const PATHS = {
 	updateVideo: '/updateVideo/:videoId/:editType',
 	helpManager: '/helpManager',
 	faq: '/faq',
-	infoPage: '/infoPage/:title',
+	infoPage: '/infoPage/:question',
 	addQuizQuestions: '/addQuizQuestions',
 };
 

@@ -3,24 +3,58 @@ const faqItems = [
 		question: 'I got a new computer, so what do I do now?',
 		answer:
 			'Turn it on, follow the setup instructions, connect to Wi-Fi, update the operating system, and install antivirus software. Explore pre-installed apps and set up your email to get started.',
-		title: 'What to do with your new computer',
-		body: [
-			"Congratulations on your new computer! Here's what you can do to get started:",
-			'Turn It On: Press the power button to switch on your computer. The power button is typically on the top of your keyboard but in some cases it may be on the side of your laptop.',
-			'Follow Setup Instructions: Complete the initial setup by choosing a language, connecting to Wi-Fi, and creating a user account.',
-			'If you do not know or have access to a Wi-Fi, you can move forward without setting up a Wi-Fi.',
-			'Update the Operating System: Check for updates (Windows: Start Settings Update & Security. MacOS: Apple menu System Preferences Software Update) and install any that are available.',
-			'Install Antivirus Software: Protect your computer by downloading and installing antivirus software.',
-			'Explore Built-in Apps: Get familiar with the pre-installed applications, such as the web browser and email client.',
-			'Set Up Email: Add your email account using the built-in email application to start sending and receiving emails.',
-			'Learn Basic Navigation: Practice opening, closing, and switching between applications. Learn useful keyboard shortcuts like Ctrl+C (copy) and Ctrl+V (paste).',
-		],
+		longAnswers: `<div className="container">
+		<h1>What to do with your new computer</h1>
+		<p>Congratulations on your new computer! Here's what you can do to get started:</p>
+		<p>
+			Turn It On: Press the power button to switch on your computer. The power button is typically on the top of your
+			keyboard but in some cases it may be on the side of your laptop.
+		</p>
+		<p>
+			Follow Setup Instructions: Complete the initial setup by choosing a language, connecting to Wi-Fi, and creating a
+			user account.
+		</p>
+		<p>If you do not know or have access to a Wi-Fi, you can move forward without setting up a Wi-Fi.</p>
+		<p>
+			Update the Operating System: Check for updates (Windows: Start Settings Update & Security. MacOS: Apple menu
+			System Preferences Software Update) and install any that are available.
+		</p>
+		<p>Install Antivirus Software: Protect your computer by downloading and installing antivirus software.</p>
+		<p>
+			Explore Built-in Apps: Get familiar with the pre-installed applications, such as the web browser and email client.
+		</p>
+		<p>
+			Set Up Email: Add your email account using the built-in email application to start sending and receiving emails.
+		</p>
+		<p>
+			Learn Basic Navigation: Practice opening, closing, and switching between applications. Learn useful keyboard
+			shortcuts like Ctrl+C (copy) and Ctrl+V (paste).
+		</p>
+	</div>`,
 	},
 	{
 		question: 'What kind of computer am I using?',
 		answer:
 			'Look for your operating system (Windows, macOS, etc.), physical design (laptop or desktop), and branding (e.g., Apple logo for Mac). You can also check system settings for detailed specifications.',
-		path: '',
+		longAnswers: `<div className="container">
+		<h1>To determine what kind of computer you&apos;re using, you can look at several factors</h1>
+		<p>Congratulations on your new computer! Here&apos;s what you can do to get started:</p>
+		<p>
+			Operating System: Check if you&apos;re using Windows, macOS, Linux, or another operating system. This information is usually displayed on the desktop or in system settings.
+		</p>
+		<p>
+			Physical Design: Laptops and desktops have distinct designs. Laptops are portable and have built-in displays, while desktops typically have separate monitors and larger CPU towers.
+		</p>
+		<p>
+			Branding: Look for any logos or branding on the device itself. For example, if you see an Apple logo, you&apos;re likely using a Mac computer.
+		</p>
+		<p>
+			System Information: You can also find detailed information about your computer&apos;s specifications, including the manufacturer and model, in the system settings or by using system information tools.
+		</p>
+		<p>
+			Once you gather this information, you&apos;ll have a better understanding of the type of computer you&apos;re using.
+		</p>
+	</div>`,
 	},
 	{
 		question: 'What are the icons I see when I look at my phone?',
@@ -79,7 +113,6 @@ const faqItems = [
 		question: 'How do I right-click?',
 		answer:
 			'On a mouse, press the right button. On a trackpad, tap with two fingers (Windows) or click while holding the Control key (Mac).',
-		path: '',
 	},
 	{
 		question: 'How do I drag and drop?',
@@ -91,7 +124,11 @@ const faqItems = [
 		question: 'What is a trackpad?',
 		answer:
 			'A trackpad (also called a touchpad) is a built-in, flat, touch-sensitive surface on laptops that you can use instead of a mouse to control the cursor.',
-		path: '',
+		title: 'How it works:',
+		body: [
+			'You move your finger across the trackpad to move the cursor on the screen. You can tap on it to click or use two-finger taps or swipes for right-clicking and scrolling.',
+			"Trackpads often come with multi-touch gestures, like zooming, swiping between apps, and more, depending on your laptop's settings.",
+		],
 	},
 	{
 		question: 'What is a browser/search engine?',
@@ -150,7 +187,32 @@ const faqItems = [
 		question: 'How do I get to my student email?',
 		answer:
 			'Go to your school’s email login page, enter your student email and password, or add your account to an email app.',
-		path: '',
+		longAnswers: `<div className="container">
+  			<h1>How to Access Your Student Email and Gateway</h1>
+  			<p>To access your student email or gateway, follow these steps:</p>
+  			<h2>1. Accessing Your Student Email:</h2>
+  			<h3>Via a Web Browser:</h3>
+  			<ol>
+    <li><strong>Open Your Web Browser:</strong> Launch Chrome, Firefox, Safari, or another browser.</li>
+    <li><strong>Go to Your School’s Email Login Page:</strong> This is often found on your school’s website or directly via a URL provided by your institution. For example, it might be something like <code>mail.yourschool.edu</code> or <code>email.yourschool.edu</code>.</li>
+    <li><strong>Enter Your Credentials:</strong> Type in your student email address and password.</li>
+    <li><strong>Click Login:</strong> Access your inbox and manage your emails.</li>
+  </ol>
+  <h3>Via Email App:</h3>
+  <ol>
+    <li><strong>Open Your Email App:</strong> On your phone or computer.</li>
+    <li><strong>Add a New Account:</strong> Go to settings and select <em>Add Account</em> or <em>Add Email Account</em>.</li>
+    <li><strong>Enter Your Student Email and Password:</strong> Follow prompts to set up the account.</li>
+  </ol>
+  <h2>2. Accessing Your Student Gateway (Portal):</h2>
+  <ol>
+    <li><strong>Open Your Web Browser:</strong> Launch your preferred browser.</li>
+    <li><strong>Navigate to Your School’s Portal:</strong> This could be <code>portal.yourschool.edu</code> or a similar URL. You can often find this link on your school’s website.</li>
+    <li><strong>Log In:</strong> Enter your student credentials (username and password) as provided by your school.</li>
+    <li><strong>Access Your Resources:</strong> Once logged in, you can access grades, schedules, financial aid, and other student resources.</li>
+  </ol>
+  <p>If you encounter issues, check with your school’s IT department or student support for assistance.</p>
+</div>`,
 	},
 	{
 		question: "How do I know I'm using the right email account?",

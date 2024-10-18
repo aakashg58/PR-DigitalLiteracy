@@ -32,14 +32,14 @@ export default function FAQ() {
 	};
 
 	const renderAnswer = (item) => {
-		const { answer, title } = item;
+		const { answer, question, longAnswers } = item;
 		if (answer.length > MAX_ANSWER_LENGTH) {
 			return (
 				<>
 					{answer.substring(0, MAX_ANSWER_LENGTH)}...
-					{title && (
+					{longAnswers && (
 						<Link
-							to={`/InfoPage/${title}`}
+							to={`/InfoPage/${encodeURIComponent(question)}`}
 							className="text-blue-500 bg-transparent border-none cursor-pointer text-sm underline ml-2"
 						>
 							Read More
