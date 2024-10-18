@@ -74,7 +74,10 @@ export default function FAQ() {
 		<div className="faq-container">
 			<header>
 				<h1>Frequently Asked Questions</h1>
-				<div>Got a question? We&apos;re here to answer. If you don&apos;t see your question below, ask it here:</div>
+				<div>
+					Check out our list of frequently asked questions to find the answers you need. If you don’t see your question
+					below, please contact our staff for assistance. We are happy to help!
+				</div>
 			</header>
 
 			<div className="search-bar">
