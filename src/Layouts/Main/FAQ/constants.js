@@ -1290,7 +1290,8 @@ const faqItems = [
 	{
 		question: 'What is Canvas?',
 		answer: 'Canvas is an online platform used by schools for managing courses, assignments, and grades.',
-		longAnswers: `<div className="container">
+		longAnswers: `
+	<div className="container">
 		<h1>Canvas (Learning Management System)</h1>
 		<p>
 			<strong>Purpose:</strong> A platform used by educational institutions for course management and online learning.

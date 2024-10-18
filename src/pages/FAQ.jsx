@@ -33,22 +33,20 @@ export default function FAQ() {
 
 	const renderAnswer = (item) => {
 		const { answer, question, longAnswers } = item;
-		if (answer.length > MAX_ANSWER_LENGTH) {
-			return (
-				<>
-					{answer.substring(0, MAX_ANSWER_LENGTH)}...
-					{longAnswers && (
-						<Link
-							to={`/InfoPage/${encodeURIComponent(question)}`}
-							className="text-blue-500 bg-transparent border-none cursor-pointer text-sm underline ml-2"
-						>
-							Read More
-						</Link>
-					)}
-				</>
-			);
-		}
-		return answer;
+
+		return (
+			<>
+				{answer.length > MAX_ANSWER_LENGTH ? `${answer.substring(0, MAX_ANSWER_LENGTH)}...` : answer}
+				{longAnswers && (
+					<Link
+						to={`/InfoPage/${encodeURIComponent(question)}`}
+						className="text-blue-500 bg-transparent border-none cursor-pointer text-sm underline ml-2"
+					>
+						Read More
+					</Link>
+				)}
+			</>
+		);
 	};
 
 	const handleSearch = (query) => {
