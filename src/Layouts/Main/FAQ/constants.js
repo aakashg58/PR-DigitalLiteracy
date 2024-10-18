@@ -211,7 +211,7 @@ const faqItems = [
 	</div>`,
 	},
 	{
-		question: 'What is the "page cannot be found" error i keep getting?',
+		question: 'What is the "page cannot be found" error I keep getting?',
 		answer:
 			'The "Error, page cannot be found" message typically occurs when your computer is trying to access a webpage that is either unavailable or doesnt exist.',
 		longAnswers: `<div className="container">
@@ -408,7 +408,7 @@ const faqItems = [
 	</div>`,
 	},
 	{
-		question: 'What is the "404" error i keep getting?',
+		question: 'What is the "404" error I keep getting?',
 		answer:
 			'A "404" error message means that the webpage youre trying to access cannot be found on the server. This is one of the most common web errors.',
 		longAnswers: `<div className="container">
@@ -605,7 +605,7 @@ const faqItems = [
 	</div>`,
 	},
 	{
-		question: 'What is the "advance security warning" error i keep getting?',
+		question: 'What is the "advance security warning" error I keep getting?',
 		answer:
 			'If your computer is getting an advanced security warning message, it generally means theres a potential security issue with the website or network youre trying to access.',
 		longAnswers: `<div className="container">
@@ -802,7 +802,7 @@ const faqItems = [
 		</div>`,
 	},
 	{
-		question: 'What is the "cannot load page" error i keep getting?',
+		question: 'What is the "cannot load page" error I keep getting?',
 		answer:
 			'The "Cannot load page" message typically occurs when your computer cannot access the website youre trying to visit.',
 		longAnswers: `<div className="container">
@@ -999,7 +999,7 @@ const faqItems = [
 		</div>`,
 	},
 	{
-		question: 'What is the "no internet connection" error i keep getting?',
+		question: 'What is the "no internet connection" error I keep getting?',
 		answer: 'The "No Internet connection" message means your computer is unable to connect to the internet.',
 		longAnswers: `<div className="container">
 			<h1>Common Computer Errors</h1>
@@ -1361,7 +1361,7 @@ const faqItems = [
 	</div>`,
 	},
 	{
-		question: 'Where do i find my computer settings?',
+		question: 'Where do I find my computer settings?',
 		answer:
 			'Find settings by opening the Start Menu (Windows) or System Preferences (macOS). Adjust brightness, sound, display, and cursor speed to suit your needs.',
 		longAnswers: `<div className="container">
@@ -1458,7 +1458,7 @@ const faqItems = [
 	</div>`,
 	},
 	{
-		question: 'Where do i find where i saved my file?',
+		question: 'Where do I find where i saved my file?',
 		answer:
 			'Search common folders like Documents, Downloads, or Desktop. You can also use the search bar in File Explorer (Windows) or Finder (macOS).',
 		longAnswers: `<div className="container">
@@ -1539,7 +1539,7 @@ const faqItems = [
 	</div>`,
 	},
 	{
-		question: 'How do i sign into Wi-Fi?',
+		question: 'How do I sign into Wi-Fi?',
 		answer:
 			'Click the Wi-Fi icon on your taskbar (Windows) or menu bar (macOS), select your network, enter the password, and connect.',
 		longAnswers: `<div className="container">
