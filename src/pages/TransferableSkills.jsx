@@ -17,7 +17,7 @@ function TransferableSkills() {
 				<h1 className="font-bold text-5xl">Finding Transferable Skills</h1>
 			</div>
 
-			<div className="flex items-center justify-center pt-10 px-36">
+			<div className="flex items-center justify-center pt-10 md:px-36 sm:px-12">
 				<h1 className="font-bold text-5xl">
 					Transferable skills allow employers to better see how your skill set applies to the job.
 				</h1>
@@ -125,8 +125,8 @@ function TransferableSkills() {
 				</ol>
 
 				<div>
-					<h1 className="text-4xl font-bold">Record Your Story</h1>
-					<div className="flex justify-center items-center gap-3">
+					<h1 className="text-4xl font-bold py-5">Record Your Story</h1>
+					<div className="md:flex min-[320px]:flex-row justify-center items-center gap-3">
 						<button
 							className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl  hover:bg-lightBlue"
 							type="button"
@@ -141,7 +141,16 @@ function TransferableSkills() {
 						>
 							Record Audio
 						</button>
-						{recordOption === 'video' ? <VideoRecorder /> : recordOption === 'audio' ? <AudioRecorder /> : <div></div>}
+
+						<div>
+							{recordOption === 'video' ? (
+								<VideoRecorder />
+							) : recordOption === 'audio' ? (
+								<AudioRecorder />
+							) : (
+								<div></div>
+							)}
+						</div>
 					</div>
 				</div>
 			</div>

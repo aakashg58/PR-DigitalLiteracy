@@ -33,7 +33,7 @@ function CriminalRecordHelp() {
 
 				<div className="float-left clear-both">
 					<ul className="block">
-						<li className="float-left ">
+						<li className="float-left ml-8 max-[1005px]: wd-full">
 							<div className="align-top inline-block text-center w-44">
 								<img src={Green} className="w-40 h-20 bg-gray-400 rounded-xl" alt="" />
 								<div className="block">
@@ -43,7 +43,7 @@ function CriminalRecordHelp() {
 							</div>
 						</li>
 
-						<li className="float-left ml-8">
+						<li className="float-left ml-8 max-[1005px]: wd-full">
 							<div className="align-top inline-block text-center w-44">
 								<img src={Yellow} className="w-40 h-20 bg-gray-400  rounded-xl " alt="" />
 								<div className="block">
@@ -53,7 +53,7 @@ function CriminalRecordHelp() {
 							</div>
 						</li>
 
-						<li className="float-left ml-8">
+						<li className="float-left ml-8 max-[1005px]: wd-full">
 							<div className="align-top inline-block text-center w-44">
 								<img src={Red} className="w-40 h-20 bg-gray-400 rounded-xl" alt="" />
 								<div className="block">
@@ -176,7 +176,7 @@ function CriminalRecordHelp() {
 						</ol>
 					</div>
 
-					<div className="float-left ml-20">
+					<div className="float-left ml-20 max-[500px]:hidden">
 						<ol>
 							<li>Baskin-Robbins</li>
 							<li className="mt-2 text-large">Bed,Bath & Beyond</li>
@@ -193,7 +193,7 @@ function CriminalRecordHelp() {
 						</ol>
 					</div>
 
-					<div className="float-left ml-20">
+					<div className="float-left ml-20 max-[1030px]:hidden">
 						<ol>
 							<li>Caterpillar Inc</li>
 							<li className="mt-2 text-large">CDW</li>
@@ -212,7 +212,7 @@ function CriminalRecordHelp() {
 				</div>
 			</div>
 
-			<div className="helpcard mt-10 flex-col">
+			<div className="helpcard mt-10 flex-col max-[765px]:w-11/12">
 				<div>
 					<p className="text- xl font-bold clear-both">
 						Ask for help: <span className="border-solid border-2 border-black rounded-sm  bg-white">Need Help?</span>
