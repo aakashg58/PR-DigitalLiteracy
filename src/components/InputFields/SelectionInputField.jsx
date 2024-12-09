@@ -60,9 +60,9 @@ export default function SelectionInputField({ id, headerText, inputLabel, value,
 					</button>
 					{isOpen && (
 						<ul className="absolute z-10 mt-2 w-full bg-white border rounded shadow-lg">
-							{selectionFields.map((item) => {
+							{selectionFields.map((item, index) => {
 								if (item.type === 'divider') {
-									return <li key={item.type} className="my-1 border-t border-gray-200" />;
+									return <li key={`${item.type} - ${index}`} className="my-1 border-t border-gray-200" />;
 								}
 								if (item.type === 'header') {
 									return (
