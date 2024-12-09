@@ -27,7 +27,6 @@ function AddVideo({ editVideoData, editType }) {
 		editVideoData?.stopTimes?.map((time) => convertSecondsToTimestamp(time)) || [],
 	);
 	const [transcript, setTranscript] = useState(editVideoData?.transcript || '');
-	console.log('awdbawuk', transcript);
 	// React-Player
 	const reactVideoPlayerRef = useRef();
 
