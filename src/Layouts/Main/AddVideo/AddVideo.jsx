@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { doc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
-import { addVideoData, updateData } from '../../../firebase/firebaseReadWrite';
+import { addVideoData, updateData, addTranscriptData } from '../../../firebase/firebaseReadWrite';
 import Popup from '../../../components/Popups/Popups';
 import Button from '../../../components/Buttons/Button';
 
@@ -10,8 +10,10 @@ import MessageInputSection, { validateMessageInputSection } from './Layouts/Mess
 import VideoInputSection, { validateVideoInputSection } from './Layouts/VideoInputSection';
 import VideoSection from './Layouts/VideoSection';
 import { convertSecondsToTimestamp, convertTimestampToSeconds } from './util/timeStampConversion';
+import TranscriptInputSection from './Layouts/TranscriptInputSection';
 
 function AddVideo({ editVideoData, editType }) {
+	console.log('editVideoData:', editVideoData);
 	// User Input Values
 	const [url, setUrl] = useState(editVideoData?.url || '');
 	const [tags, setTags] = useState(editVideoData?.tags || []);
@@ -20,10 +22,12 @@ function AddVideo({ editVideoData, editType }) {
 	const [category, setCategory] = useState(editVideoData?.category || '');
 	const [subtopic, setSubtopic] = useState(editVideoData?.subtopic || '');
 
-	const [messages, setMessage] = useState(editVideoData?.messages || ['']);
+	const [messages, setMessage] = useState(editVideoData?.messages || []);
 	const [stopTimes, setStopTimes] = useState(
-		editVideoData?.stopTimes?.map((time) => convertSecondsToTimestamp(time)) || [''],
+		editVideoData?.stopTimes?.map((time) => convertSecondsToTimestamp(time)) || [],
 	);
+	const [transcript, setTranscript] = useState(editVideoData?.transcript || '');
+	console.log('awdbawuk', transcript);
 	// React-Player
 	const reactVideoPlayerRef = useRef();
 
@@ -41,8 +45,8 @@ function AddVideo({ editVideoData, editType }) {
 	const [popup, setPopup] = useState(null);
 
 	// Title
-	const [title, setTitle] = useState('');
-	const [channelTitle, setChannelTitle] = useState('');
+	const [title, setTitle] = useState(editVideoData?.title || '');
+	const [channelTitle, setChannelTitle] = useState(editVideoData?.channelTitle || '');
 
 	const resetData = () => {
 		setUrl('');
@@ -50,12 +54,13 @@ function AddVideo({ editVideoData, editType }) {
 		setOs('');
 		setCategory('');
 		setSubtopic('');
-		setStopTimes(['']);
-		setMessage(['']);
+		setStopTimes([]);
+		setMessage([]);
 		setIsChapterSegmentChecked(false);
 		setIsChapterSegmentAvailable(false);
 		setTitle('');
 		setChannelTitle('');
+		setTranscript('');
 	};
 
 	const handleAddSegment = () => {
@@ -222,14 +227,6 @@ function AddVideo({ editVideoData, editType }) {
 				e.preventDefault();
 				videoDataPayload.stopTimes = segmentStopTimes;
 				videoDataPayload.messages = segmentMessages;
-
-				resetData();
-
-				setPopup({
-					text: 'Video added successfully!',
-					visible: true,
-					icon: 'success',
-				});
 			} else {
 				if (!validateMessageInputSection(messages, setPopup, stopTimes, reactVideoPlayerRef)) {
 					return;
@@ -240,22 +237,41 @@ function AddVideo({ editVideoData, editType }) {
 				e.preventDefault();
 				videoDataPayload.stopTimes = stopTimes.map((stopTime) => convertTimestampToSeconds(stopTime));
 				videoDataPayload.messages = messages;
+			}
 
-				let docRef;
-				if (editVideoData) {
-					// only add key when updating the video
-					if (editType === 'archive') {
-						docRef = doc(db, 'youtube-deleted-history', editVideoData.key);
-					} else {
-						docRef = doc(db, 'youtube-videos', editVideoData.key);
-					}
-
-					await updateData(docRef, videoDataPayload);
+			let docRef;
+			if (editVideoData) {
+				// only add key when updating the video
+				if (editType === 'archive') {
+					docRef = doc(db, 'youtube-deleted-history', editVideoData.key);
 				} else {
-					await addVideoData('youtube-videos', videoDataPayload);
-					resetData();
+					docRef = doc(db, 'youtube-videos', editVideoData.key);
 				}
 
+				await updateData(docRef, videoDataPayload);
+				const transcriptDataPayload = {
+					transcript,
+					title,
+					channelTitle,
+					id: editVideoData.key,
+				};
+				await addTranscriptData('youtube-transcripts', transcriptDataPayload);
+				setPopup({
+					text: 'Video edited successfully!',
+					visible: true,
+					icon: 'success',
+				});
+			} else {
+				const id = await addVideoData('youtube-videos', videoDataPayload);
+				const transcriptDataPayload = {
+					transcript,
+					title,
+					channelTitle,
+					id,
+				};
+				await addTranscriptData('youtube-transcripts', transcriptDataPayload);
+
+				resetData();
 				setPopup({
 					text: 'Video added successfully!',
 					visible: true,
@@ -306,6 +322,8 @@ function AddVideo({ editVideoData, editType }) {
 					handleChaperCheckboxChange={handleChaperCheckboxChange}
 				/>
 
+				<TranscriptInputSection transcript={transcript} setTranscript={setTranscript} />
+
 				<div className="flex">
 					{editVideoData ? (
 						<Button
@@ -337,6 +355,9 @@ AddVideo.propTypes = {
 		messages: PropTypes.arrayOf(PropTypes.string),
 		stopTimes: PropTypes.arrayOf(PropTypes.number),
 		key: PropTypes.string,
+		transcript: PropTypes.string,
+		title: PropTypes.string,
+		channelTitle: PropTypes.string,
 	}),
 	editType: PropTypes.oneOf(['update', 'archive']),
 };

@@ -33,9 +33,55 @@ export const addVideoData = async (collectionName, docData) => {
 	try {
 		const docRef = await addDoc(collection(db, collectionName), docData);
 		console.log('Document added with ID: ', docRef.id);
+		return docRef.id;
 	} catch (e) {
 		console.log('Error adding document:', e);
+		return null;
 	}
+};
+
+export const addTranscriptData = async (collectionName, docData) => {
+	console.log('docData:', docData);
+	try {
+		const docRef = await setDoc(doc(db, collectionName, docData.id), docData);
+		console.log('Transcript added with ID: ', docData.id);
+		return docRef.id;
+	} catch (e) {
+		console.log('Error adding document:', e);
+		return null;
+	}
+};
+
+export const fetchTranscriptFromFirebase = (docRef, docID) => {
+	const [transcript, setTranscript] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		const fetchTranscript = async () => {
+			try {
+				const unsubscribe = onSnapshot(docRef, (docSnap) => {
+					if (docSnap.exists()) {
+						setTranscript(docSnap.data());
+					} else {
+						console.warn('No transcript found with the given document ID.');
+						setError('Video not found');
+					}
+					setLoading(false);
+				});
+
+				return () => unsubscribe(); // Cleanup on unmount
+			} catch (err) {
+				console.error('Error fetching video:', err);
+				setError(err.message); // Store the error message
+				setLoading(false); // Set loading to false on error
+			}
+		};
+
+		fetchTranscript();
+	}, [docID]); // Include d
+
+	return { transcript, error, loading };
 };
 
 export const fetchVideosFromFirebase = () => {

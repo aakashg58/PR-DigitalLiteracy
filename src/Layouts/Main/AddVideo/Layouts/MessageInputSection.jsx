@@ -113,6 +113,7 @@ MessageInputSection.propTypes = {
 };
 
 export const validateMessageInputSection = (messages, setPopup, stopTimes, playerRef) => {
+	console.log('messages:', messages);
 	// Checks if a string is empty or contains only whitespace
 	const isEmptyOrSpaces = (str) => {
 		if (typeof str !== 'string') return true;

@@ -6,6 +6,7 @@
 2. Get access to the firebase project or Register a new app with firebase\*\*
 3. Create a .env file using the .env.example file in the project root folder.
 4. Populate all the fields in the .env file using the firebase dashboard.
+   Note: make sure to not incluce "" around the values or in some api calls a %22 is added to the request
 
 Optional google analytics:
 
