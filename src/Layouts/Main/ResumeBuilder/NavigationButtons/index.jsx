@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import { Box, Grid, Button, Modal } from '@mui/material';
 import { doc } from 'firebase/firestore';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
 import { formBackground } from '../styles';
 import { Colors } from '../../../../constants/Colors';
 import { useAuth } from '../../../../firebase/AuthContext';
 import { db } from '../../../../firebase/firebase';
 
 import PDFPage from '../../../../pages/PDFPage';
+import 'react-toastify/dist/ReactToastify.css';
 
 function NavigationButtons({ resumeData, dataFromFirebase }) {
+	const notify = () =>
+		toast.success("Progress saved!  (Don't worry, it's also auto-saved as you go.)", {
+			position: 'bottom-center',
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: 'light',
+			transition: Zoom,
+		});
+
 	const { currentUser } = useAuth();
 	const [preparedData, setPreparedData] = useState({}); // New state to hold prepared data
 
@@ -157,11 +172,23 @@ function NavigationButtons({ resumeData, dataFromFirebase }) {
 									fontSize: { md: '1rem', sm: '0.7rem', xs: '0.5rem' },
 									'&:hover': { backgroundColor: Colors.primaryColor },
 								}}
-								// onClick={saveProgressBtnOnClick}
+								onClick={notify}
 							>
 								Save Progress
 							</Button>
 						</Box>
+						<ToastContainer
+							position="bottom-center"
+							autoClose={5000}
+							hideProgressBar={false}
+							newestOnTop={false}
+							closeOnClick
+							rtl={false}
+							pauseOnFocusLoss
+							draggable
+							pauseOnHover
+							theme="light"
+						/>
 						<Box>
 							<Button
 								variant="contained"
