@@ -127,20 +127,24 @@ function TransferableSkills() {
 				<div>
 					<h1 className="text-4xl font-bold py-5">Record Your Story</h1>
 					<div className="md:flex min-[320px]:flex-row justify-center items-center gap-3">
-						<button
-							className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl  hover:bg-lightBlue"
-							type="button"
-							onClick={toggleRecordOption('video')}
-						>
-							Record Video
-						</button>
-						<button
-							className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl  hover:bg-lightBlue"
-							type="button"
-							onClick={toggleRecordOption('audio')}
-						>
-							Record Audio
-						</button>
+						{recordOption !== 'video' && (
+							<button
+								className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl  hover:bg-lightBlue"
+								type="button"
+								onClick={toggleRecordOption('video')}
+							>
+								Record Video
+							</button>
+						)}
+						{recordOption !== 'audio' && (
+							<button
+								className="p-4 text-center inline-block text-xl font-bold cursor-pointer bg-white rounded-xl  hover:bg-lightBlue"
+								type="button"
+								onClick={toggleRecordOption('audio')}
+							>
+								Record Audio
+							</button>
+						)}
 
 						<div>
 							{recordOption === 'video' ? (
