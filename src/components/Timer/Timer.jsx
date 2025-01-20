@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-export default function Stopwatch(isrun) {
+const Timer = () => {
 	const [currentTime, setCurrentTime] = useState(0);
 	const [isRunning, setIsRunning] = useState(false);
 
@@ -30,4 +30,6 @@ export default function Stopwatch(isrun) {
 			</div>
 		</>
 	);
-}
+};
+
+export default Timer;

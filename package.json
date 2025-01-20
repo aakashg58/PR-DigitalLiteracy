@@ -29,7 +29,7 @@
 		"react-scripts": "5.0.1",
 		"react-scroll": "^1.9.0",
 		"react-tag-input-component": "^2.0.2",
-		"react-toastify": "^10.0.5",
+		"react-toastify": "^10.0.6",
 		"react-voice-visualizer": "^2.0.2",
 		"react-youtube": "^10.1.0",
 		"sweetalert2": "^11.7.32",

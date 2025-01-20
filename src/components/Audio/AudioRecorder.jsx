@@ -7,6 +7,8 @@ import Timer from '../Timer/Timer';
 import Button from '../Buttons/Button';
 import { multiLineInputStyle } from '../../Layouts/Main/ResumeBuilder/styles';
 import { set } from 'lodash';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AudioRecorder = ({ skillsList }) => {
 	const [value, setValue] = useState('');
@@ -86,13 +88,16 @@ const AudioRecorder = ({ skillsList }) => {
 				switch (error.code) {
 					case 'storage/unauthorized':
 						// User doesn't have permission to access the object
+						toast.error('Upload failed. Try Again.', { position: 'top-right' });
 						setSubmit('upload-failed');
 						break;
 					case 'storage/canceled':
 						// User canceled the upload
+						toast.error('Upload failed. Try Again.', { position: 'top-right' });
 						setSubmit('upload-failed');
 						break;
 					case 'storage/unknown':
+						toast.error('Upload failed. Try Again.', { position: 'top-right' });
 						setSubmit('upload-failed');
 						// Unknown error occurred, inspect error.serverResponse
 						break;
@@ -100,6 +105,7 @@ const AudioRecorder = ({ skillsList }) => {
 			},
 			() => {
 				// Upload completed successfully, now we can get the download URL
+				toast.success('Successful Upload!', { position: 'top-right' });
 				setSubmit('upload-successful');
 			},
 		);
@@ -130,16 +136,19 @@ const AudioRecorder = ({ skillsList }) => {
 
 	const deleteAudio = async () => {
 		const storage = getStorage();
-		setSubmit('no-upload');
 		console.log(submissionname + ' submitted');
 		const desertRefString = 'UserAudio/' + submissionname + '/' + selectedValue + '/audioclip';
 
 		const desertRef = ref(storage, desertRefString);
 		deleteObject(desertRef)
 			.then(() => {
+				setSubmit('no-upload');
+				toast.success('File Succesfully Deleted.', { position: 'top-right' });
 				console.log('File deleted successfully');
 			})
 			.catch((error) => {
+				setSubmit('delete-failed');
+				toast.error('Failed to Delete file. Try Again.', { position: 'top-right' });
 				console.log('failed to delete file UserAudio/' + submissionname);
 			});
 		const desertTxtString = 'UserAudio/' + submissionname + '/' + selectedValue + '/audiotext';
@@ -158,6 +167,7 @@ const AudioRecorder = ({ skillsList }) => {
 			<div className="border rounded-lg  border-sky-500 p-2 bg-sky-500 flex flex-col sm:flex-row items-center justify-center flex-1 w-150">
 				<div className="flex-1 w-auto flex flex-col items-center justify-center">
 					<p className="text-4xl font-bold mb-3">Currently Recording Audio</p>
+					<ToastContainer position="top-right" />
 
 					{error && alert('Conflicting Media. Please close any tabs using your camera or audio devices')}
 
@@ -244,17 +254,15 @@ const AudioRecorder = ({ skillsList }) => {
 							</>
 						) : null}
 
-						{status === 'stopped' && submit === 'upload-successful' ? (
-							<Button
-								onChangeFunction={() => deleteAudio()}
-								text="Undo"
-								className="rounded-lg font-semibold text-white bg-red-500 hover:bg-red-400"
-								id="delete uploaded recording"
-							/>
-						) : null}
-
-						{status === 'stopped' && submit === 'upload-failed' ? (
-							<p className="text-xl">audio submission failed.</p>
+						{(status === 'stopped' && submit === 'upload-successful') || submit === 'delete-failed' ? (
+							<>
+								<Button
+									onChangeFunction={() => deleteAudio()}
+									text="Undo"
+									className="rounded-lg font-semibold text-white bg-red-500 hover:bg-red-400"
+									id="delete uploaded recording"
+								/>
+							</>
 						) : null}
 					</div>
 				</div>
