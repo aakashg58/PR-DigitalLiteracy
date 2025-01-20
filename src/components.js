@@ -21,6 +21,9 @@ import AddQuizQuestions from './pages/AddQuizQuestions';
 import CriminalRecordHelp from './pages/CriminalRecordHelp';
 import InterviewTips from './pages/InterviewTips'
 import TransferableSkills from './pages/TransferableSkills';
+import FAQ from './pages/FAQ';
+import InfoPage from './pages/InfoPage';
+
 
 const components = {
 	home: Home,
@@ -46,6 +49,8 @@ const components = {
 	criminalRecordHelp: CriminalRecordHelp,
 	interviewTips: InterviewTips,
 	transferableSkills: TransferableSkills,
+	faq: FAQ,
+	infoPage: InfoPage,
 };
 
 export default components;

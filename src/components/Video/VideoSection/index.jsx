@@ -6,7 +6,6 @@ import { Box } from '@mui/material';
 import Popup from '../Popup/Popup';
 import { Colors } from '../../../constants/Colors';
 import './VideoSection.css';
-import '../../../Layouts/Main/AddVideo/youtubeVideo.css';
 import AdminVideoControls from './AdminVideoControls';
 import { useAuth } from '../../../firebase/AuthContext';
 
@@ -54,7 +53,7 @@ export default function VideoSection({ videoValue, transcriptValue, subtopicValu
 				},
 			});
 
-			const resultsWithScore = results.map(result => ({
+			const resultsWithScore = results.map((result) => ({
 				key: result.ref,
 				score: result.score,
 			}));
@@ -105,10 +104,10 @@ export default function VideoSection({ videoValue, transcriptValue, subtopicValu
 			(showSubtopicUndefinedVideos && !video.subtopic) ||
 			(video.subtopic && (subtopicValue.length === 0 || subtopicValue === video.subtopic));
 
-		const searchMatch = searchResults.length === 0 || searchResults.some(result => result.key === video.key);
+		const searchMatch = searchResults.length === 0 || searchResults.some((result) => result.key === video.key);
 
 		if (contentTypeMatch && osMatch && subtopicMatch && searchMatch && !uniqueUrls.has(video.url)) {
-			const searchResult = searchResults.find(result => result.key === video.key);
+			const searchResult = searchResults.find((result) => result.key === video.key);
 			const score = searchResult ? searchResult.score : 0;
 			uniqueUrls.add(video.url);
 			filteredVideos.push({ ...video, score });
@@ -204,20 +203,24 @@ export default function VideoSection({ videoValue, transcriptValue, subtopicValu
 }
 
 VideoSection.propTypes = {
-	videoValue: PropTypes.arrayOf(PropTypes.shape({
-		key: PropTypes.string.isRequired,
-		url: PropTypes.string.isRequired,
-		category: PropTypes.string.isRequired,
-		operating_system: PropTypes.arrayOf(PropTypes.string).isRequired,
-		subtopic: PropTypes.string,
-		stopTimes: PropTypes.arrayOf(PropTypes.number),
-		messages: PropTypes.arrayOf(PropTypes.string),
-	})).isRequired,
-	transcriptValue: PropTypes.arrayOf(PropTypes.shape({
-		key: PropTypes.string.isRequired,
-		title: PropTypes.string,
-		transcript: PropTypes.string,
-	})).isRequired,
+	videoValue: PropTypes.arrayOf(
+		PropTypes.shape({
+			key: PropTypes.string.isRequired,
+			url: PropTypes.string.isRequired,
+			category: PropTypes.string.isRequired,
+			operating_system: PropTypes.arrayOf(PropTypes.string).isRequired,
+			subtopic: PropTypes.string,
+			stopTimes: PropTypes.arrayOf(PropTypes.number),
+			messages: PropTypes.arrayOf(PropTypes.string),
+		}),
+	).isRequired,
+	transcriptValue: PropTypes.arrayOf(
+		PropTypes.shape({
+			key: PropTypes.string.isRequired,
+			title: PropTypes.string,
+			transcript: PropTypes.string,
+		}),
+	).isRequired,
 	subtopicValue: PropTypes.string.isRequired,
 	tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 	appliedFilterTags: PropTypes.arrayOf(PropTypes.string).isRequired,

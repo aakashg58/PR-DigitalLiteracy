@@ -12,7 +12,7 @@ export default function AdminVideoControls({ videoId }) {
 	};
 
 	const onEdit = () => {
-		navigate(PATHS.updateVideo.replace(':videoId', videoId)); // Corrected URL generation
+		navigate(PATHS.updateVideo.replace(':videoId', videoId).replace(':editType', 'update'));
 	};
 
 	return (

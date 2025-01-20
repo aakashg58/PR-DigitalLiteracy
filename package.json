@@ -37,7 +37,7 @@
 		"uuid": "^10.0.0"
 	},
 	"scripts": {
-		"dev": "react-scripts start",
+		"dev": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
 		"start": "react-scripts start",
 		"build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
 		"test": "react-scripts test",

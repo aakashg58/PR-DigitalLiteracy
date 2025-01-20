@@ -1,23 +1,46 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { doc } from 'firebase/firestore';
 import AddVideo from '../AddVideo/AddVideo';
-import { fetchVideoFromFirebase } from '../../../firebase/firebaseReadWrite';
+import { fetchVideoFromFirebase, fetchTranscriptFromFirebase } from '../../../firebase/firebaseReadWrite';
+import { db } from '../../../firebase/firebase';
 
-export default function UpdateVideoLayout(videoId) {
-	const { video, loading, error } = fetchVideoFromFirebase(videoId);
+export default function UpdateVideoLayout(videoId, editType) {
+	const [videoData, setVideoData] = useState(null);
+
+	const collectionName = editType === 'archive' ? 'youtube-deleted-history' : 'youtube-videos';
+	const videoDocRef = doc(db, collectionName, videoId);
+	const transcriptDocRef = doc(db, 'youtube-transcripts', videoId);
+
+	const { video, loadingVideo, errorVideo } = fetchVideoFromFirebase(videoDocRef);
+	const { transcript, loadingTranscript, errorTranscript } = fetchTranscriptFromFirebase(transcriptDocRef, videoId);
 
 	useEffect(() => {
 		if (video) {
-			video.key = videoId;
+			const updatedVideo = {
+				...video,
+				transcript: transcript ? transcript.transcript : null,
+				key: videoId,
+			};
+			setVideoData(updatedVideo);
 		}
-	}, [video]);
+	}, [video, transcript, videoId]);
 
-	if (loading) {
+	if (loadingVideo || loadingTranscript) {
 		return <div>Loading...</div>;
 	}
 
-	if (error) {
-		return <div>Error: {error}</div>;
+	// Handle the case where the video exists but the transcript doesn't
+	if (errorTranscript && !errorVideo) {
+		return (
+			<div>
+				<AddVideo editVideoData={{ ...video, transcript: null, key: videoId }} editType={editType} />
+			</div>
+		);
 	}
 
-	return <div>{video && <AddVideo editVideoData={video} />}</div>;
+	if (errorVideo) {
+		return <div>Error: {errorVideo}</div>;
+	}
+
+	return <div>{videoData && <AddVideo editVideoData={videoData} editType={editType} />}</div>;
 }

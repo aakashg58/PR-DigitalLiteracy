@@ -2,8 +2,7 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { doc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
-import { addVideoData, updateData } from '../../../firebase/firebaseReadWrite';
-import './styles.css';
+import { addVideoData, updateData, addTranscriptData } from '../../../firebase/firebaseReadWrite';
 import Popup from '../../../components/Popups/Popups';
 import Button from '../../../components/Buttons/Button';
 
@@ -11,8 +10,10 @@ import MessageInputSection, { validateMessageInputSection } from './Layouts/Mess
 import VideoInputSection, { validateVideoInputSection } from './Layouts/VideoInputSection';
 import VideoSection from './Layouts/VideoSection';
 import { convertSecondsToTimestamp, convertTimestampToSeconds } from './util/timeStampConversion';
+import TranscriptInputSection from './Layouts/TranscriptInputSection';
 
-function AddVideo({ editVideoData }) {
+function AddVideo({ editVideoData, editType }) {
+	console.log('editVideoData:', editVideoData);
 	// User Input Values
 	const [url, setUrl] = useState(editVideoData?.url || '');
 	const [tags, setTags] = useState(editVideoData?.tags || []);
@@ -21,10 +22,11 @@ function AddVideo({ editVideoData }) {
 	const [category, setCategory] = useState(editVideoData?.category || '');
 	const [subtopic, setSubtopic] = useState(editVideoData?.subtopic || '');
 
-	const [messages, setMessage] = useState(editVideoData?.messages || ['']);
+	const [messages, setMessage] = useState(editVideoData?.messages || []);
 	const [stopTimes, setStopTimes] = useState(
-		editVideoData?.stopTimes?.map((time) => convertSecondsToTimestamp(time)) || [''],
+		editVideoData?.stopTimes?.map((time) => convertSecondsToTimestamp(time)) || [],
 	);
+	const [transcript, setTranscript] = useState(editVideoData?.transcript || '');
 	// React-Player
 	const reactVideoPlayerRef = useRef();
 
@@ -41,16 +43,23 @@ function AddVideo({ editVideoData }) {
 	// Popup Message
 	const [popup, setPopup] = useState(null);
 
+	// Title
+	const [title, setTitle] = useState(editVideoData?.title || '');
+	const [channelTitle, setChannelTitle] = useState(editVideoData?.channelTitle || '');
+
 	const resetData = () => {
 		setUrl('');
 		setTags([]);
 		setOs('');
 		setCategory('');
 		setSubtopic('');
-		setStopTimes(['']);
-		setMessage(['']);
+		setStopTimes([]);
+		setMessage([]);
 		setIsChapterSegmentChecked(false);
 		setIsChapterSegmentAvailable(false);
+		setTitle('');
+		setChannelTitle('');
+		setTranscript('');
 	};
 
 	const handleAddSegment = () => {
@@ -160,6 +169,9 @@ function AddVideo({ editVideoData }) {
 				const data = await response.json();
 				const video = data.items[0];
 
+				setTitle(video.snippet.title);
+				setChannelTitle(video.snippet.channelTitle);
+
 				const desc = video.snippet.description;
 				const lines = desc.split('\n');
 				const filteredLines = lines.filter((line) => /^\s*\d+:\d+/.test(line));
@@ -205,6 +217,8 @@ function AddVideo({ editVideoData }) {
 			operating_system: operatingSystem,
 			category,
 			subtopic,
+			title,
+			channelTitle,
 		};
 
 		try {
@@ -212,14 +226,6 @@ function AddVideo({ editVideoData }) {
 				e.preventDefault();
 				videoDataPayload.stopTimes = segmentStopTimes;
 				videoDataPayload.messages = segmentMessages;
-
-				resetData();
-
-				setPopup({
-					text: 'Video added successfully!',
-					visible: true,
-					icon: 'success',
-				});
 			} else {
 				if (!validateMessageInputSection(messages, setPopup, stopTimes, reactVideoPlayerRef)) {
 					return;
@@ -230,17 +236,41 @@ function AddVideo({ editVideoData }) {
 				e.preventDefault();
 				videoDataPayload.stopTimes = stopTimes.map((stopTime) => convertTimestampToSeconds(stopTime));
 				videoDataPayload.messages = messages;
+			}
 
-				if (editVideoData) {
-					// only add key when updating the video
-					const docRef = doc(db, 'youtube-videos', editVideoData.key);
-
-					await updateData(docRef, videoDataPayload);
+			let docRef;
+			if (editVideoData) {
+				// only add key when updating the video
+				if (editType === 'archive') {
+					docRef = doc(db, 'youtube-deleted-history', editVideoData.key);
 				} else {
-					await addVideoData('youtube-videos', videoDataPayload);
-					resetData();
+					docRef = doc(db, 'youtube-videos', editVideoData.key);
 				}
 
+				await updateData(docRef, videoDataPayload);
+				const transcriptDataPayload = {
+					transcript,
+					title,
+					channelTitle,
+					id: editVideoData.key,
+				};
+				await addTranscriptData('youtube-transcripts', transcriptDataPayload);
+				setPopup({
+					text: 'Video edited successfully!',
+					visible: true,
+					icon: 'success',
+				});
+			} else {
+				const id = await addVideoData('youtube-videos', videoDataPayload);
+				const transcriptDataPayload = {
+					transcript,
+					title,
+					channelTitle,
+					id,
+				};
+				await addTranscriptData('youtube-transcripts', transcriptDataPayload);
+
+				resetData();
 				setPopup({
 					text: 'Video added successfully!',
 					visible: true,
@@ -291,9 +321,15 @@ function AddVideo({ editVideoData }) {
 					handleChaperCheckboxChange={handleChaperCheckboxChange}
 				/>
 
+				<TranscriptInputSection transcript={transcript} setTranscript={setTranscript} />
+
 				<div className="flex">
 					{editVideoData ? (
-						<Button onChangeFunction={handleSubmit} text="Update" id="addVideoUpdateButton" />
+						<Button
+							onChangeFunction={handleSubmit}
+							text={editType === 'archive' ? 'Update Archive' : 'Update'}
+							id="addVideoUpdateButton"
+						/>
 					) : (
 						<Button onChangeFunction={handleSubmit} text="Submit" id="addVideoSubmitButton" />
 					)}
@@ -318,9 +354,14 @@ AddVideo.propTypes = {
 		messages: PropTypes.arrayOf(PropTypes.string),
 		stopTimes: PropTypes.arrayOf(PropTypes.number),
 		key: PropTypes.string,
+		transcript: PropTypes.string,
+		title: PropTypes.string,
+		channelTitle: PropTypes.string,
 	}),
+	editType: PropTypes.oneOf(['update', 'archive']),
 };
 
 AddVideo.defaultProps = {
 	editVideoData: null,
+	editType: null,
 };
