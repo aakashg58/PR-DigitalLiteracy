@@ -1,3 +1,4 @@
+
 const PATHS = {
 	home: '/',
 	login: '/login',
@@ -21,6 +22,9 @@ const PATHS = {
 	faq: '/faq',
 	infoPage: '/infoPage/:question',
 	addQuizQuestions: '/addQuizQuestions',
+	criminalRecordHelp: '/criminalRecordHelp',
+	interviewTips: '/interviewTips',
+	transferableSkills: '/transferableSkills'
 };
 
 export default PATHS;
